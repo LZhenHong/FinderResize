@@ -1,0 +1,24 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "About" : {
+
+    },
+    "General" : {
+
+    },
+    "Launch at Login" : {
+
+    },
+    "Open Accessibility Settings" : {
+
+    },
+    "Quit" : {
+
+    },
+    "Settings" : {
+
+    }
+  },
+  "version" : "1.0"
+}

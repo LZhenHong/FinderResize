@@ -27,8 +27,6 @@ final class MenuBarItemController {
 
     func setUp() {
         statusItem = setUpStatusItem()
-
-        subscribePublishers()
     }
 
     private func setUpStatusItem() -> NSStatusItem? {
@@ -85,6 +83,14 @@ final class MenuBarItemController {
 
     private func createMenu() -> NSMenu {
         NSMenu {
+            if !AXUtils.trusted {
+                MenuItemBuilder()
+                    .title(String(localized: "Open Accessibility Settings"))
+                    .onSelect {
+                        AXUtils.openAccessibilitySetting()
+                    }
+                NSMenuItem.separator()
+            }
             MenuItemBuilder()
                 .title(String(localized: "Launch at Login"))
                 .onHighlight(LaunchAtLogin.enabledPulisher.eraseToAnyPublisher())
@@ -106,17 +112,9 @@ final class MenuBarItemController {
         }
     }
 
-    private func subscribePublishers() {}
-
     private func changeMenuBarItemImage(with name: String) {
         guard let btn = statusItem?.button else { return }
 
         btn.image = NSImage(systemSymbolName: name, accessibilityDescription: "FinderEnhancer")
-    }
-
-    private func changeMenuBarItemToolTip(with tip: String) {
-        guard let btn = statusItem?.button else { return }
-
-        btn.toolTip = tip
     }
 }
