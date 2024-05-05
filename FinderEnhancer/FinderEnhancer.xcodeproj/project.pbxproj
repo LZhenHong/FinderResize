@@ -24,6 +24,8 @@
 		F215A8602BE7D8DE008AB0C4 /* SubscriptionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8512BE7D8DE008AB0C4 /* SubscriptionToken.swift */; };
 		F215A8612BE7D8DE008AB0C4 /* URLSchemeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8522BE7D8DE008AB0C4 /* URLSchemeUtils.swift */; };
 		F215A8622BE7D8DE008AB0C4 /* ViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8532BE7D8DE008AB0C4 /* ViewUtils.swift */; };
+		F215A8642BE7E9B5008AB0C4 /* GeneralSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8632BE7E9B5008AB0C4 /* GeneralSetting.swift */; };
+		F215A8662BE7E9F9008AB0C4 /* AboutSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8652BE7E9F9008AB0C4 /* AboutSetting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		F215A8512BE7D8DE008AB0C4 /* SubscriptionToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionToken.swift; sourceTree = "<group>"; };
 		F215A8522BE7D8DE008AB0C4 /* URLSchemeUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSchemeUtils.swift; sourceTree = "<group>"; };
 		F215A8532BE7D8DE008AB0C4 /* ViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewUtils.swift; sourceTree = "<group>"; };
+		F215A8632BE7E9B5008AB0C4 /* GeneralSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSetting.swift; sourceTree = "<group>"; };
+		F215A8652BE7E9F9008AB0C4 /* AboutSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSetting.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +85,8 @@
 				F215A8422BE7D87C008AB0C4 /* main.swift */,
 				F215A8322BE7D7E4008AB0C4 /* AppDelegate.swift */,
 				F215A8442BE7D8DE008AB0C4 /* MenuBarItemController.swift */,
-				F215A8492BE7D8DE008AB0C4 /* Settings */,
+				F215A8632BE7E9B5008AB0C4 /* GeneralSetting.swift */,
+				F215A8652BE7E9F9008AB0C4 /* AboutSetting.swift */,
 				F215A8542BE7D8DE008AB0C4 /* Utils */,
 				F215A8362BE7D7E5008AB0C4 /* Assets.xcassets */,
 				F215A83B2BE7D7E5008AB0C4 /* FinderEnhancer.entitlements */,
@@ -113,6 +118,7 @@
 		F215A8542BE7D8DE008AB0C4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F215A8492BE7D8DE008AB0C4 /* Settings */,
 				F215A84D2BE7D8DE008AB0C4 /* Ext */,
 				F215A84E2BE7D8DE008AB0C4 /* LaunchAtLogin.swift */,
 				F215A84F2BE7D8DE008AB0C4 /* MenuBuilder.swift */,
@@ -195,6 +201,7 @@
 			files = (
 				F215A8612BE7D8DE008AB0C4 /* URLSchemeUtils.swift in Sources */,
 				F215A8332BE7D7E4008AB0C4 /* AppDelegate.swift in Sources */,
+				F215A8662BE7E9F9008AB0C4 /* AboutSetting.swift in Sources */,
 				F215A85A2BE7D8DE008AB0C4 /* Array+.swift in Sources */,
 				F215A8572BE7D8DE008AB0C4 /* SettingTabViewController.swift in Sources */,
 				F215A8432BE7D87C008AB0C4 /* main.swift in Sources */,
@@ -206,6 +213,7 @@
 				F215A8592BE7D8DE008AB0C4 /* SettingWindowController.swift in Sources */,
 				F215A85E2BE7D8DE008AB0C4 /* MenuBuilder.swift in Sources */,
 				F215A85B2BE7D8DE008AB0C4 /* Bundle+.swift in Sources */,
+				F215A8642BE7E9B5008AB0C4 /* GeneralSetting.swift in Sources */,
 				F215A8562BE7D8DE008AB0C4 /* SettingContentRepresentable.swift in Sources */,
 				F215A85F2BE7D8DE008AB0C4 /* MenuItemBuilder.swift in Sources */,
 				F215A8582BE7D8DE008AB0C4 /* SettingViewController.swift in Sources */,

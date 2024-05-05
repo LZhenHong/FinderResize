@@ -1,6 +1,6 @@
 //
 //  MenuBarItemController.swift
-//  Americano
+//  FinderEnhancer
 //
 //  Created by Eden on 2023/9/20.
 //
@@ -16,7 +16,10 @@ final class MenuBarItemController {
     private var statusItem: NSStatusItem!
 
     private lazy var settingWindowController: SettingWindowController = {
-        let settings: [SettingContentRepresentable] = []
+        let settings: [SettingContentRepresentable] = [
+            GeneralSetting(),
+            AboutSetting()
+        ]
         return SettingWindowController(settings: settings)
     }()
 
@@ -81,7 +84,26 @@ final class MenuBarItemController {
     }
 
     private func createMenu() -> NSMenu {
-        NSMenu()
+        NSMenu {
+            MenuItemBuilder()
+                .title(String(localized: "Launch at Login"))
+                .onHighlight(LaunchAtLogin.enabledPulisher.eraseToAnyPublisher())
+                .onSelect {
+                    LaunchAtLogin.toggle()
+                }
+            MenuItemBuilder()
+                .title(String(localized: "Settings"))
+                .shortcuts(",")
+                .onSelect {
+                    self.settingWindowController.show()
+                }
+            NSMenuItem.separator()
+            MenuItemBuilder()
+                .title(String(localized: "Quit"))
+                .onSelect {
+                    NSApp.terminate(self)
+                }
+        }
     }
 
     private func subscribePublishers() {}

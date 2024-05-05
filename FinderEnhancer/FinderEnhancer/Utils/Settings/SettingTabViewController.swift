@@ -1,6 +1,6 @@
 //
 //  SettingTabViewController.swift
-//  Americano
+//  FinderEnhancer
 //
 //  Created by Eden on 2023/11/1.
 //

@@ -1,6 +1,6 @@
 //
 //  SubscriptionToken.swift
-//  Americano
+//  FinderEnhancer
 //
 //  Created by Eden on 2023/9/20.
 //
