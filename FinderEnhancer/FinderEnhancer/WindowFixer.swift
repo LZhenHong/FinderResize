@@ -63,18 +63,14 @@ class WindowFixer {
             this.resizeNewFinderWindow()
         }, &observer)
 
-        guard createError == .success, let observer else {
-            return
-        }
+        guard createError == .success, let observer else { return }
 
         let this = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         let addError = AXObserverAddNotification(observer,
                                                  self.finderApp,
                                                  kAXWindowCreatedNotification as CFString,
                                                  this)
-        guard addError == .success else {
-            return
-        }
+        guard addError == .success else { return }
 
         CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer), .defaultMode)
         finderWindowElements = fetchLatestFinderWindowInfos()
@@ -83,17 +79,16 @@ class WindowFixer {
     private func resizeNewFinderWindow() {
         let latestWindowElements = fetchLatestFinderWindowInfos()
         let newWindowElements = latestWindowElements.filter { !finderWindowElements.contains($0) }
-        guard !newWindowElements.isEmpty else {
-            return
-        }
+        guard !newWindowElements.isEmpty else { return }
 
         for newWindowElement in newWindowElements {
-            /// TODO: make size can be configured.
+            // TODO: make size can be configured.
             var size = CGSize(width: 1200, height: 800)
-            guard let sizeValue = AXValueCreate(.cgSize, &size) else {
-                continue
-            }
-            AXUIElementSetAttributeValue(newWindowElement, NSAccessibility.Attribute.size.rawValue as CFString, sizeValue)
+            guard let sizeValue = AXValueCreate(.cgSize, &size) else { continue }
+
+            AXUIElementSetAttributeValue(newWindowElement,
+                                         NSAccessibility.Attribute.size.rawValue as CFString,
+                                         sizeValue)
         }
         finderWindowElements = latestWindowElements
     }
