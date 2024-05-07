@@ -4,7 +4,19 @@
     "About" : {
 
     },
+    "Accessibility access status:" : {
+
+    },
+    "FinderEnhancer requires Accessibility access to resize Finder window." : {
+
+    },
     "General" : {
+
+    },
+    "Granted." : {
+
+    },
+    "Height" : {
 
     },
     "Launch at Login" : {
@@ -16,7 +28,16 @@
     "Quit" : {
 
     },
+    "Resize window to:" : {
+
+    },
     "Settings" : {
+
+    },
+    "Version: %@" : {
+
+    },
+    "Width" : {
 
     }
   },

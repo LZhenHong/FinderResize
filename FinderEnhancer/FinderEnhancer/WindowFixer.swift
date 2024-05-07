@@ -14,6 +14,8 @@ extension String {
 class WindowFixer {
     static let shared = WindowFixer()
 
+    var size = CGSize(width: 1200, height: 800)
+
     private var observer: AXObserver!
     private var finderApp: AXUIElement!
     private var finderWindowElements: [AXUIElement] = []
@@ -82,8 +84,7 @@ class WindowFixer {
         guard !newWindowElements.isEmpty else { return }
 
         for newWindowElement in newWindowElements {
-            // TODO: make size can be configured.
-            var size = CGSize(width: 1200, height: 800)
+            var size = CGSize(width: self.size.width, height: self.size.height)
             guard let sizeValue = AXValueCreate(.cgSize, &size) else { continue }
 
             AXUIElementSetAttributeValue(newWindowElement,

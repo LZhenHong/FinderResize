@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F20351CA2BE8E02900F42D8B /* CGSize+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20351C92BE8E02900F42D8B /* CGSize+.swift */; };
 		F215A8332BE7D7E4008AB0C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8322BE7D7E4008AB0C4 /* AppDelegate.swift */; };
 		F215A8372BE7D7E5008AB0C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F215A8362BE7D7E5008AB0C4 /* Assets.xcassets */; };
 		F215A8432BE7D87C008AB0C4 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8422BE7D87C008AB0C4 /* main.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F20351C92BE8E02900F42D8B /* CGSize+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+.swift"; sourceTree = "<group>"; };
 		F215A82F2BE7D7E4008AB0C4 /* FinderEnhancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinderEnhancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F215A8322BE7D7E4008AB0C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F215A8362BE7D7E5008AB0C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				F215A84A2BE7D8DE008AB0C4 /* Array+.swift */,
 				F215A84B2BE7D8DE008AB0C4 /* Bundle+.swift */,
 				F215A84C2BE7D8DE008AB0C4 /* Map+.swift */,
+				F20351C92BE8E02900F42D8B /* CGSize+.swift */,
 			);
 			path = Ext;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 			files = (
 				F215A8612BE7D8DE008AB0C4 /* URLSchemeUtils.swift in Sources */,
 				F215A8332BE7D7E4008AB0C4 /* AppDelegate.swift in Sources */,
+				F20351CA2BE8E02900F42D8B /* CGSize+.swift in Sources */,
 				F215A86D2BE7EF70008AB0C4 /* AppState.swift in Sources */,
 				F215A8662BE7E9F9008AB0C4 /* AboutSetting.swift in Sources */,
 				F215A85A2BE7D8DE008AB0C4 /* Array+.swift in Sources */,
