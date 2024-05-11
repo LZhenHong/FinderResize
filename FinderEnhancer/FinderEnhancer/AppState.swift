@@ -5,14 +5,27 @@
 //  Created by Eden on 2024/5/6.
 //
 
+import Storage
 import SwiftUI
 
+@storage
 class AppState: ObservableObject {
-    @AppStorage("io.lzhlovesjyq.finderenhancer.resizewindow")
-    var resizeWindow = false
+    enum WindowPlace: Int {
+        case center, custom
+    }
 
-    @AppStorage("io.lzhlovesjyq.finderenhancer.windowsize")
+    enum WindowScreen: Int {
+        case main, current
+    }
+
+    var resizeWindow = false
     var windowSize: CGSize = .zero
+
+    var replaceWindow = false
+    var place: WindowPlace = .center
+    var position: CGPoint = .zero
+
+    var screen: WindowScreen = .main
 
     static let shared = AppState()
 

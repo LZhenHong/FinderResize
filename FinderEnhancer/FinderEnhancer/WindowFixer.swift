@@ -2,25 +2,29 @@
 //  WindowFixer.swift
 //  FinderEnhancer
 //
-//  Created by Eden on 2024/5/6.
+//  Created by Eden on 2024/5/9.
 //
 
 import Cocoa
 
-extension String {
-    static let finderBundleIdentifier = "com.apple.finder"
-}
+typealias NewWindowListener = ([AXUIElement]) -> Void
 
 class WindowFixer {
-    static let shared = WindowFixer()
-
-    var size = CGSize(width: 1200, height: 800)
-
     private var observer: AXObserver!
-    private var finderApp: AXUIElement!
-    private var finderWindowElements: [AXUIElement] = []
+    private var app: AXUIElement!
+    private var windowElements: [AXUIElement] = []
 
-    func setUp() {
+    let appBundleIdentifier: String
+    let onNewWindow: NewWindowListener
+
+    init(appBundleIdentifier: String, onNewWindow: @escaping NewWindowListener) {
+        self.appBundleIdentifier = appBundleIdentifier
+        self.onNewWindow = onNewWindow
+
+        setUp()
+    }
+
+    private func setUp() {
         setUpListener()
         setUpAXObserver()
     }
@@ -34,69 +38,62 @@ class WindowFixer {
 
     @objc private func onApplicationWillLaunch(_ info: Notification) {
         guard let app = info.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
-              app.bundleIdentifier == .finderBundleIdentifier
+              app.bundleIdentifier == appBundleIdentifier
         else {
             return
         }
-        addAXObserver(with: app)
+        addAXObserver(for: app)
     }
 
     private func setUpAXObserver() {
-        let finderApps = NSRunningApplication.runningApplications(withBundleIdentifier: .finderBundleIdentifier)
-        guard !finderApps.isEmpty,
-              let finderApp = finderApps.first(where: { $0.bundleIdentifier == .finderBundleIdentifier })
+        let apps = NSRunningApplication.runningApplications(withBundleIdentifier: appBundleIdentifier)
+        guard !apps.isEmpty,
+              let app = apps.first(where: { $0.bundleIdentifier == appBundleIdentifier })
         else {
             return
         }
-        addAXObserver(with: finderApp)
+        addAXObserver(for: app)
     }
 
-    private func addAXObserver(with finderApp: NSRunningApplication) {
+    private func addAXObserver(for app: NSRunningApplication) {
         /// Remove observer if exsits
         removeObserver()
 
-        let pid = finderApp.processIdentifier
+        let pid = app.processIdentifier
         debugPrint("Finder applicaiton pid: \(pid)")
-        self.finderApp = AXUIElementCreateApplication(pid)
+        self.app = AXUIElementCreateApplication(pid)
 
         let createError = AXObserverCreate(pid, { _, _, _, refcon in
             guard let ref = refcon else { return }
             let this = Unmanaged<WindowFixer>.fromOpaque(ref).takeUnretainedValue()
-            this.resizeNewFinderWindow()
+            this.handleNewWindows()
         }, &observer)
 
         guard createError == .success, let observer else { return }
 
         let this = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         let addError = AXObserverAddNotification(observer,
-                                                 self.finderApp,
+                                                 self.app,
                                                  kAXWindowCreatedNotification as CFString,
                                                  this)
         guard addError == .success else { return }
 
         CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer), .defaultMode)
-        finderWindowElements = fetchLatestFinderWindowInfos()
+        windowElements = fetchLatestWindowElements()
     }
 
-    private func resizeNewFinderWindow() {
-        let latestWindowElements = fetchLatestFinderWindowInfos()
-        let newWindowElements = latestWindowElements.filter { !finderWindowElements.contains($0) }
+    private func handleNewWindows() {
+        let latestWindowElements = fetchLatestWindowElements()
+        let newWindowElements = latestWindowElements.filter { !windowElements.contains($0) }
         guard !newWindowElements.isEmpty else { return }
 
-        for newWindowElement in newWindowElements {
-            var size = CGSize(width: self.size.width, height: self.size.height)
-            guard let sizeValue = AXValueCreate(.cgSize, &size) else { continue }
-
-            AXUIElementSetAttributeValue(newWindowElement,
-                                         NSAccessibility.Attribute.size.rawValue as CFString,
-                                         sizeValue)
-        }
-        finderWindowElements = latestWindowElements
+        onNewWindow(newWindowElements)
+        windowElements = latestWindowElements
     }
 
-    private func fetchLatestFinderWindowInfos() -> [AXUIElement] {
+    private func fetchLatestWindowElements() -> [AXUIElement] {
         var value: AnyObject?
-        let error = AXUIElementCopyAttributeValue(finderApp,
+        let error = AXUIElementCopyAttributeValue(app,
                                                   NSAccessibility.Attribute.windows.rawValue as CFString,
                                                   &value)
         guard error == .success,
@@ -110,16 +107,14 @@ class WindowFixer {
     }
 
     private func removeObserver() {
-        guard let observer, let finderApp else { return }
+        guard let observer, let app else { return }
 
         CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer), .defaultMode)
-        AXObserverRemoveNotification(observer, finderApp, kAXWindowCreatedNotification as CFString)
+        AXObserverRemoveNotification(observer, app, kAXWindowCreatedNotification as CFString)
         self.observer = nil
-        self.finderApp = nil
-        finderWindowElements = []
+        self.app = nil
+        windowElements = []
     }
-
-    private init() {}
 
     deinit {
         NSWorkspace.shared.notificationCenter.removeObserver(self)

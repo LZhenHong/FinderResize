@@ -3,7 +3,7 @@ Keep Finder's window size.
 
 ## TODOs
 
-- [ ] Setting View
+- [x] Setting View
 - [ ] Icon
 - [ ] i18n
 - [ ] DMG

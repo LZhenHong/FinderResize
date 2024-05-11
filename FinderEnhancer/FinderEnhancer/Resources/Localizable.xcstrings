@@ -7,6 +7,15 @@
     "Accessibility access status:" : {
 
     },
+    "Active Screen" : {
+
+    },
+    "Center" : {
+
+    },
+    "Custom" : {
+
+    },
     "FinderEnhancer requires Accessibility access to resize Finder window." : {
 
     },
@@ -22,7 +31,16 @@
     "Launch at Login" : {
 
     },
+    "Main Screen" : {
+
+    },
+    "Move window to:" : {
+
+    },
     "Open Accessibility Settings" : {
+
+    },
+    "Place window to:" : {
 
     },
     "Quit" : {
@@ -38,6 +56,12 @@
 
     },
     "Width" : {
+
+    },
+    "X" : {
+
+    },
+    "Y" : {
 
     }
   },

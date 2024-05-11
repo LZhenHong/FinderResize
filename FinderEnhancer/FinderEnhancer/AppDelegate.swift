@@ -10,9 +10,13 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         AXUtils.checkIsTrusted()
-
-        WindowFixer.shared.setUp()
         MenuBarItemController.shared.setUp()
+
+        createFinderWindowFixer()
+    }
+
+    private func createFinderWindowFixer() {
+        _ = sharedFinderWindowFixer()
     }
 
     func applicationDidBecomeActive(_ notification: Notification) {

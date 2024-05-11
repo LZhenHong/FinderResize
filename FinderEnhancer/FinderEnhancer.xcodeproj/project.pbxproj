@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F20351CA2BE8E02900F42D8B /* CGSize+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20351C92BE8E02900F42D8B /* CGSize+.swift */; };
+		F20351CA2BE8E02900F42D8B /* RawRepresentable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20351C92BE8E02900F42D8B /* RawRepresentable+.swift */; };
 		F215A8332BE7D7E4008AB0C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8322BE7D7E4008AB0C4 /* AppDelegate.swift */; };
 		F215A8372BE7D7E5008AB0C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F215A8362BE7D7E5008AB0C4 /* Assets.xcassets */; };
 		F215A8432BE7D87C008AB0C4 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8422BE7D87C008AB0C4 /* main.swift */; };
@@ -16,7 +16,6 @@
 		F215A8572BE7D8DE008AB0C4 /* SettingTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8462BE7D8DE008AB0C4 /* SettingTabViewController.swift */; };
 		F215A8582BE7D8DE008AB0C4 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8472BE7D8DE008AB0C4 /* SettingViewController.swift */; };
 		F215A8592BE7D8DE008AB0C4 /* SettingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8482BE7D8DE008AB0C4 /* SettingWindowController.swift */; };
-		F215A85A2BE7D8DE008AB0C4 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A84A2BE7D8DE008AB0C4 /* Array+.swift */; };
 		F215A85B2BE7D8DE008AB0C4 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A84B2BE7D8DE008AB0C4 /* Bundle+.swift */; };
 		F215A85C2BE7D8DE008AB0C4 /* Map+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A84C2BE7D8DE008AB0C4 /* Map+.swift */; };
 		F215A85D2BE7D8DE008AB0C4 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A84E2BE7D8DE008AB0C4 /* LaunchAtLogin.swift */; };
@@ -31,11 +30,13 @@
 		F215A86B2BE7ED68008AB0C4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F215A86A2BE7ED68008AB0C4 /* Localizable.xcstrings */; };
 		F215A86D2BE7EF70008AB0C4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A86C2BE7EF70008AB0C4 /* AppState.swift */; };
 		F215A86F2BE7F1E7008AB0C4 /* AXUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A86E2BE7F1E7008AB0C4 /* AXUtils.swift */; };
-		F215A8712BE7F9FD008AB0C4 /* WindowFixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8702BE7F9FD008AB0C4 /* WindowFixer.swift */; };
+		F215A8712BE7F9FD008AB0C4 /* FinderWindowFixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F215A8702BE7F9FD008AB0C4 /* FinderWindowFixer.swift */; };
+		F2EFDD442BEBCEAF001A9B6D /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = F2EFDD432BEBCEAF001A9B6D /* Storage */; };
+		F2EFDD462BEBE1BA001A9B6D /* WindowFixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EFDD452BEBE1BA001A9B6D /* WindowFixer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F20351C92BE8E02900F42D8B /* CGSize+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+.swift"; sourceTree = "<group>"; };
+		F20351C92BE8E02900F42D8B /* RawRepresentable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RawRepresentable+.swift"; sourceTree = "<group>"; };
 		F215A82F2BE7D7E4008AB0C4 /* FinderEnhancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinderEnhancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F215A8322BE7D7E4008AB0C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F215A8362BE7D7E5008AB0C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -46,7 +47,6 @@
 		F215A8462BE7D8DE008AB0C4 /* SettingTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTabViewController.swift; sourceTree = "<group>"; };
 		F215A8472BE7D8DE008AB0C4 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		F215A8482BE7D8DE008AB0C4 /* SettingWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingWindowController.swift; sourceTree = "<group>"; };
-		F215A84A2BE7D8DE008AB0C4 /* Array+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		F215A84B2BE7D8DE008AB0C4 /* Bundle+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
 		F215A84C2BE7D8DE008AB0C4 /* Map+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Map+.swift"; sourceTree = "<group>"; };
 		F215A84E2BE7D8DE008AB0C4 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
@@ -61,7 +61,8 @@
 		F215A86A2BE7ED68008AB0C4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F215A86C2BE7EF70008AB0C4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		F215A86E2BE7F1E7008AB0C4 /* AXUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXUtils.swift; sourceTree = "<group>"; };
-		F215A8702BE7F9FD008AB0C4 /* WindowFixer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowFixer.swift; sourceTree = "<group>"; };
+		F215A8702BE7F9FD008AB0C4 /* FinderWindowFixer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderWindowFixer.swift; sourceTree = "<group>"; };
+		F2EFDD452BEBE1BA001A9B6D /* WindowFixer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowFixer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2EFDD442BEBCEAF001A9B6D /* Storage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,11 +99,12 @@
 				F215A8422BE7D87C008AB0C4 /* main.swift */,
 				F215A8322BE7D7E4008AB0C4 /* AppDelegate.swift */,
 				F215A8442BE7D8DE008AB0C4 /* MenuBarItemController.swift */,
-				F215A86E2BE7F1E7008AB0C4 /* AXUtils.swift */,
-				F215A8702BE7F9FD008AB0C4 /* WindowFixer.swift */,
 				F215A86C2BE7EF70008AB0C4 /* AppState.swift */,
 				F215A8632BE7E9B5008AB0C4 /* GeneralSetting.swift */,
 				F215A8652BE7E9F9008AB0C4 /* AboutSetting.swift */,
+				F215A86E2BE7F1E7008AB0C4 /* AXUtils.swift */,
+				F2EFDD452BEBE1BA001A9B6D /* WindowFixer.swift */,
+				F215A8702BE7F9FD008AB0C4 /* FinderWindowFixer.swift */,
 				F215A8542BE7D8DE008AB0C4 /* Utils */,
 				F215A8672BE7EC70008AB0C4 /* Resources */,
 			);
@@ -122,10 +125,9 @@
 		F215A84D2BE7D8DE008AB0C4 /* Ext */ = {
 			isa = PBXGroup;
 			children = (
-				F215A84A2BE7D8DE008AB0C4 /* Array+.swift */,
 				F215A84B2BE7D8DE008AB0C4 /* Bundle+.swift */,
 				F215A84C2BE7D8DE008AB0C4 /* Map+.swift */,
-				F20351C92BE8E02900F42D8B /* CGSize+.swift */,
+				F20351C92BE8E02900F42D8B /* RawRepresentable+.swift */,
 			);
 			path = Ext;
 			sourceTree = "<group>";
@@ -172,6 +174,9 @@
 			dependencies = (
 			);
 			name = FinderEnhancer;
+			packageProductDependencies = (
+				F2EFDD432BEBCEAF001A9B6D /* Storage */,
+			);
 			productName = FinderEnhancer;
 			productReference = F215A82F2BE7D7E4008AB0C4 /* FinderEnhancer.app */;
 			productType = "com.apple.product-type.application";
@@ -202,6 +207,9 @@
 				"zh-Hant",
 			);
 			mainGroup = F215A8262BE7D7E4008AB0C4;
+			packageReferences = (
+				F2EFDD422BEBCEAF001A9B6D /* XCRemoteSwiftPackageReference "StorageMacro" */,
+			);
 			productRefGroup = F215A8302BE7D7E4008AB0C4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -231,22 +239,22 @@
 			files = (
 				F215A8612BE7D8DE008AB0C4 /* URLSchemeUtils.swift in Sources */,
 				F215A8332BE7D7E4008AB0C4 /* AppDelegate.swift in Sources */,
-				F20351CA2BE8E02900F42D8B /* CGSize+.swift in Sources */,
+				F20351CA2BE8E02900F42D8B /* RawRepresentable+.swift in Sources */,
 				F215A86D2BE7EF70008AB0C4 /* AppState.swift in Sources */,
 				F215A8662BE7E9F9008AB0C4 /* AboutSetting.swift in Sources */,
-				F215A85A2BE7D8DE008AB0C4 /* Array+.swift in Sources */,
 				F215A8572BE7D8DE008AB0C4 /* SettingTabViewController.swift in Sources */,
 				F215A8432BE7D87C008AB0C4 /* main.swift in Sources */,
 				F215A8602BE7D8DE008AB0C4 /* SubscriptionToken.swift in Sources */,
 				F215A8622BE7D8DE008AB0C4 /* ViewUtils.swift in Sources */,
 				F215A85C2BE7D8DE008AB0C4 /* Map+.swift in Sources */,
-				F215A8712BE7F9FD008AB0C4 /* WindowFixer.swift in Sources */,
+				F215A8712BE7F9FD008AB0C4 /* FinderWindowFixer.swift in Sources */,
 				F215A86F2BE7F1E7008AB0C4 /* AXUtils.swift in Sources */,
 				F215A8552BE7D8DE008AB0C4 /* MenuBarItemController.swift in Sources */,
 				F215A85D2BE7D8DE008AB0C4 /* LaunchAtLogin.swift in Sources */,
 				F215A8592BE7D8DE008AB0C4 /* SettingWindowController.swift in Sources */,
 				F215A85E2BE7D8DE008AB0C4 /* MenuBuilder.swift in Sources */,
 				F215A85B2BE7D8DE008AB0C4 /* Bundle+.swift in Sources */,
+				F2EFDD462BEBE1BA001A9B6D /* WindowFixer.swift in Sources */,
 				F215A8642BE7E9B5008AB0C4 /* GeneralSetting.swift in Sources */,
 				F215A8562BE7D8DE008AB0C4 /* SettingContentRepresentable.swift in Sources */,
 				F215A85F2BE7D8DE008AB0C4 /* MenuItemBuilder.swift in Sources */,
@@ -455,6 +463,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F2EFDD422BEBCEAF001A9B6D /* XCRemoteSwiftPackageReference "StorageMacro" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LZhenHong/StorageMacro";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F2EFDD432BEBCEAF001A9B6D /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2EFDD422BEBCEAF001A9B6D /* XCRemoteSwiftPackageReference "StorageMacro" */;
+			productName = Storage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F215A8272BE7D7E4008AB0C4 /* Project object */;
 }
