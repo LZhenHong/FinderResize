@@ -18,11 +18,22 @@ func sharedFinderWindowFixer() -> WindowFixer {
 private var finderWindowFixer: WindowFixer?
 
 private func resizeNewFinderWindow(_ elements: [AXUIElement]) {
-    for element in elements {
+    for element in elements.filter({ !isQuickLookWindow($0) }) {
         resizeWindow(element)
         replaceWindow(element)
         resizeWindow(element)
     }
+}
+
+private func isQuickLookWindow(_ window: AXUIElement) -> Bool {
+    var subrole: CFTypeRef?
+    let result = AXUIElementCopyAttributeValue(window,
+                                               NSAccessibility.Attribute.subrole.rawValue as CFString,
+                                               &subrole)
+    guard result == .success, let subrole = subrole as? String else {
+        return false
+    }
+    return subrole == "Quick Look"
 }
 
 private func resizeWindow(_ window: AXUIElement) {
