@@ -53,15 +53,23 @@ struct GeneralSettingView: View {
             }
         }
         .padding(.bottom, 3)
-        Text("FinderEnhancer requires Accessibility access to resize Finder window.")
+        Text("FinderEnhancer requires Accessibility access to change Finder's window frame.")
             .fixedSize(horizontal: false, vertical: true)
             .settingPropmt()
     }
 
-    var formatter: NumberFormatter {
+    var sizeFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.minimum = 100
+        formatter.maximum = 10000
+        return formatter
+    }
+
+    var zeroFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimum = 0
         formatter.maximum = 10000
         return formatter
     }
@@ -72,14 +80,14 @@ struct GeneralSettingView: View {
             HStack {
                 Text("Width")
                     .font(.subheadline)
-                TextField("Width", value: $state.windowSize.width, formatter: formatter)
+                TextField("Width", value: $state.windowSize.width, formatter: sizeFormatter)
                     .font(.subheadline)
                     .frame(width: 50)
             }
             HStack {
                 Text("Height")
                     .font(.subheadline)
-                TextField("Height", value: $state.windowSize.height, formatter: formatter)
+                TextField("Height", value: $state.windowSize.height, formatter: sizeFormatter)
                     .font(.subheadline)
                     .frame(width: 50)
             }
@@ -99,14 +107,14 @@ struct GeneralSettingView: View {
                     HStack {
                         Text("X")
                             .font(.subheadline)
-                        TextField("X", value: $state.position.x, formatter: formatter)
+                        TextField("X", value: $state.position.x, formatter: zeroFormatter)
                             .font(.subheadline)
                             .frame(width: 50)
                     }
                     HStack {
                         Text("Y")
                             .font(.subheadline)
-                        TextField("Y", value: $state.position.y, formatter: formatter)
+                        TextField("Y", value: $state.position.y, formatter: zeroFormatter)
                             .font(.subheadline)
                             .frame(width: 50)
                     }

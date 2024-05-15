@@ -50,26 +50,34 @@ private func resizeWindow(_ window: AXUIElement) {
 private func replaceWindow(_ window: AXUIElement) {
     guard AppState.shared.replaceWindow else { return }
 
-    var screen: NSScreen?
+    var targetScreen: NSScreen?
     switch AppState.shared.screen {
     case .main:
-        screen = .screens.first
+        targetScreen = .screens.first
     case .current:
-        screen = .main
+        targetScreen = .main
     }
 
-    guard let screen else { return }
+    let mainScreen: NSScreen? = .screens.first
+
+    guard let targetScreen, let mainScreen else { return }
 
     let size = AppState.shared.windowSize
     var point: CGPoint = .zero
-    let frame = screen.visibleFrame
+
+    let mainFrame = mainScreen.frame
+    let targetVisibleFrame = targetScreen.visibleFrame
+
+    let y = mainFrame.maxY - targetVisibleFrame.maxY
+    let resizeFrame = CGRect(x: targetVisibleFrame.minX, y: y, width: targetVisibleFrame.width, height: targetVisibleFrame.height)
+
     switch AppState.shared.place {
     case .center:
-        point.x = frame.midX - size.width * 0.5
-        point.y = frame.midY - size.height * 0.5
+        point.x = resizeFrame.midX - size.width * 0.5
+        point.y = resizeFrame.midY - size.height * 0.5
     case .custom:
-        point.x = frame.minX + AppState.shared.position.x
-        point.y = frame.minY + AppState.shared.position.y
+        point.x = resizeFrame.minX + AppState.shared.position.x
+        point.y = resizeFrame.minY + AppState.shared.position.y
     }
 
     guard let pointValue = AXValueCreate(.cgPoint, &point) else { return }
