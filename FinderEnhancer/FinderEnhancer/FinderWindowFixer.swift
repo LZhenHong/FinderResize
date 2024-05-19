@@ -11,16 +11,34 @@ func sharedFinderWindowFixer() -> WindowFixer {
     if let fixer = finderWindowFixer {
         return fixer
     }
-    finderWindowFixer = WindowFixer(appBundleIdentifier: .finderBundleIdentifier) { resizeNewFinderWindow($0) }
+    finderWindowFixer = WindowFixer(appBundleIdentifier: .finderBundleIdentifier) { new, _, pre in
+        resizeNewFinderWindow(new, needChangeWindowPosition: !AppState.shared.effectFirstWindow || hasNoValidWindow(pre))
+    }
     return finderWindowFixer!
+}
+
+private func hasNoValidWindow(_ windows: [AXUIElement]) -> Bool {
+    guard !windows.isEmpty else {
+        return true
+    }
+
+    for window in windows {
+        var attribute: CFTypeRef?
+        let error = AXUIElementCopyAttributeValue(window, NSAccessibility.Attribute.role.rawValue as CFString, &attribute)
+        if error != .invalidUIElement {
+            return false
+        }
+    }
+    return true
 }
 
 private var finderWindowFixer: WindowFixer?
 
-private func resizeNewFinderWindow(_ elements: [AXUIElement]) {
+private func resizeNewFinderWindow(_ elements: [AXUIElement], needChangeWindowPosition: Bool) {
     for element in elements.filter({ !isQuickLookWindow($0) }) {
         resizeWindow(element)
-        replaceWindow(element)
+        guard needChangeWindowPosition else { return }
+        placeWindow(element)
         resizeWindow(element)
     }
 }
@@ -47,8 +65,8 @@ private func resizeWindow(_ window: AXUIElement) {
                                  sizeValue)
 }
 
-private func replaceWindow(_ window: AXUIElement) {
-    guard AppState.shared.replaceWindow else { return }
+private func placeWindow(_ window: AXUIElement) {
+    guard AppState.shared.placeWindow else { return }
 
     var targetScreen: NSScreen?
     switch AppState.shared.screen {

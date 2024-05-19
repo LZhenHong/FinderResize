@@ -97,7 +97,7 @@ struct GeneralSettingView: View {
     }
 
     @ViewBuilder var positionView: some View {
-        Toggle("Move window to:", isOn: $state.replaceWindow)
+        Toggle("Move window to:", isOn: $state.placeWindow)
         Picker(selection: $state.place, label: EmptyView()) {
             Text("Center")
                 .tag(AppState.WindowPlace.center)
@@ -138,6 +138,10 @@ struct GeneralSettingView: View {
         .padding(.leading, 12)
     }
 
+    @ViewBuilder var onlyEffectFirstTimeView: some View {
+        Toggle("Only effect to first Finder's window.", isOn: $state.effectFirstWindow)
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
             accessibilityView
@@ -145,6 +149,7 @@ struct GeneralSettingView: View {
             sizeView
             Divider()
             positionView
+            onlyEffectFirstTimeView
             Divider()
             screenView
         }

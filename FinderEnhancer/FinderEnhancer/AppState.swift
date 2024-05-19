@@ -21,9 +21,10 @@ class AppState: ObservableObject {
     var resizeWindow = false
     var windowSize: CGSize = .zero
 
-    var replaceWindow = false
+    var placeWindow = false
     var place: WindowPlace = .center
     var position: CGPoint = .zero
+    var effectFirstWindow = false
 
     var screen: WindowScreen = .main
 

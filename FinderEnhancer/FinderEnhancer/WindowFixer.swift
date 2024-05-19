@@ -7,7 +7,7 @@
 
 import Cocoa
 
-typealias NewWindowListener = ([AXUIElement]) -> Void
+typealias WindowChangeListener = ([AXUIElement], [AXUIElement], [AXUIElement]) -> Void
 
 class WindowFixer {
     private var observer: AXObserver!
@@ -15,11 +15,11 @@ class WindowFixer {
     private var windowElements: [AXUIElement] = []
 
     let appBundleIdentifier: String
-    let onNewWindow: NewWindowListener
+    let onWindowChanged: WindowChangeListener
 
-    init(appBundleIdentifier: String, onNewWindow: @escaping NewWindowListener) {
+    init(appBundleIdentifier: String, onNewWindow: @escaping WindowChangeListener) {
         self.appBundleIdentifier = appBundleIdentifier
-        self.onNewWindow = onNewWindow
+        self.onWindowChanged = onNewWindow
 
         setUp()
     }
@@ -87,7 +87,7 @@ class WindowFixer {
         let newWindowElements = latestWindowElements.filter { !windowElements.contains($0) }
         guard !newWindowElements.isEmpty else { return }
 
-        onNewWindow(newWindowElements)
+        onWindowChanged(newWindowElements, latestWindowElements, windowElements)
         windowElements = latestWindowElements
     }
 
