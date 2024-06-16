@@ -37,10 +37,10 @@
 
 /* Begin PBXFileReference section */
 		F20351C92BE8E02900F42D8B /* RawRepresentable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RawRepresentable+.swift"; sourceTree = "<group>"; };
-		F215A82F2BE7D7E4008AB0C4 /* FinderEnhancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinderEnhancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F215A82F2BE7D7E4008AB0C4 /* FinderResize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinderResize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F215A8322BE7D7E4008AB0C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F215A8362BE7D7E5008AB0C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F215A83B2BE7D7E5008AB0C4 /* FinderEnhancer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinderEnhancer.entitlements; sourceTree = "<group>"; };
+		F215A83B2BE7D7E5008AB0C4 /* FinderResize.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinderResize.entitlements; sourceTree = "<group>"; };
 		F215A8422BE7D87C008AB0C4 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F215A8442BE7D8DE008AB0C4 /* MenuBarItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBarItemController.swift; sourceTree = "<group>"; };
 		F215A8452BE7D8DE008AB0C4 /* SettingContentRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingContentRepresentable.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		F215A8262BE7D7E4008AB0C4 = {
 			isa = PBXGroup;
 			children = (
-				F215A8312BE7D7E4008AB0C4 /* FinderEnhancer */,
+				F215A8312BE7D7E4008AB0C4 /* FinderResize */,
 				F215A8302BE7D7E4008AB0C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,12 +88,12 @@
 		F215A8302BE7D7E4008AB0C4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F215A82F2BE7D7E4008AB0C4 /* FinderEnhancer.app */,
+				F215A82F2BE7D7E4008AB0C4 /* FinderResize.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F215A8312BE7D7E4008AB0C4 /* FinderEnhancer */ = {
+		F215A8312BE7D7E4008AB0C4 /* FinderResize */ = {
 			isa = PBXGroup;
 			children = (
 				F215A8422BE7D87C008AB0C4 /* main.swift */,
@@ -108,7 +108,7 @@
 				F215A8542BE7D8DE008AB0C4 /* Utils */,
 				F215A8672BE7EC70008AB0C4 /* Resources */,
 			);
-			path = FinderEnhancer;
+			path = FinderResize;
 			sourceTree = "<group>";
 		};
 		F215A8492BE7D8DE008AB0C4 /* Settings */ = {
@@ -153,7 +153,7 @@
 				F215A86A2BE7ED68008AB0C4 /* Localizable.xcstrings */,
 				F215A8682BE7EC9F008AB0C4 /* InfoPlist.xcstrings */,
 				F215A8362BE7D7E5008AB0C4 /* Assets.xcassets */,
-				F215A83B2BE7D7E5008AB0C4 /* FinderEnhancer.entitlements */,
+				F215A83B2BE7D7E5008AB0C4 /* FinderResize.entitlements */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -161,9 +161,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F215A82E2BE7D7E4008AB0C4 /* FinderEnhancer */ = {
+		F215A82E2BE7D7E4008AB0C4 /* FinderResize */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F215A83E2BE7D7E5008AB0C4 /* Build configuration list for PBXNativeTarget "FinderEnhancer" */;
+			buildConfigurationList = F215A83E2BE7D7E5008AB0C4 /* Build configuration list for PBXNativeTarget "FinderResize" */;
 			buildPhases = (
 				F215A82B2BE7D7E4008AB0C4 /* Sources */,
 				F215A82C2BE7D7E4008AB0C4 /* Frameworks */,
@@ -173,12 +173,12 @@
 			);
 			dependencies = (
 			);
-			name = FinderEnhancer;
+			name = FinderResize;
 			packageProductDependencies = (
 				F2EFDD432BEBCEAF001A9B6D /* Storage */,
 			);
 			productName = FinderEnhancer;
-			productReference = F215A82F2BE7D7E4008AB0C4 /* FinderEnhancer.app */;
+			productReference = F215A82F2BE7D7E4008AB0C4 /* FinderResize.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -196,7 +196,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F215A82A2BE7D7E4008AB0C4 /* Build configuration list for PBXProject "FinderEnhancer" */;
+			buildConfigurationList = F215A82A2BE7D7E4008AB0C4 /* Build configuration list for PBXProject "FinderResize" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -214,7 +214,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F215A82E2BE7D7E4008AB0C4 /* FinderEnhancer */,
+				F215A82E2BE7D7E4008AB0C4 /* FinderResize */,
 			);
 		};
 /* End PBXProject section */
@@ -388,7 +388,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = FinderEnhancer/Resources/FinderEnhancer.entitlements;
+				CODE_SIGN_ENTITLEMENTS = FinderResize/Resources/FinderResize.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -405,7 +405,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lzhlovesjyq.FinderEnhancer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lzhlovesjyq.FinderResize;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -417,7 +417,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = FinderEnhancer/Resources/FinderEnhancer.entitlements;
+				CODE_SIGN_ENTITLEMENTS = FinderResize/Resources/FinderResize.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -434,7 +434,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lzhlovesjyq.FinderEnhancer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lzhlovesjyq.FinderResize;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -444,7 +444,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F215A82A2BE7D7E4008AB0C4 /* Build configuration list for PBXProject "FinderEnhancer" */ = {
+		F215A82A2BE7D7E4008AB0C4 /* Build configuration list for PBXProject "FinderResize" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F215A83C2BE7D7E5008AB0C4 /* Debug */,
@@ -453,7 +453,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F215A83E2BE7D7E5008AB0C4 /* Build configuration list for PBXNativeTarget "FinderEnhancer" */ = {
+		F215A83E2BE7D7E5008AB0C4 /* Build configuration list for PBXNativeTarget "FinderResize" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F215A83F2BE7D7E5008AB0C4 /* Debug */,
