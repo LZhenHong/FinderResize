@@ -1,4 +1,4 @@
-# FinderEnhancer
+# FinderResize
 Keep Finder's window size.
 
 ## TODOs
