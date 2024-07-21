@@ -32,6 +32,12 @@ class AXUtils {
         NSWorkspace.shared.open(url)
     }
 
+    static func checkTrustStatus() {
+        debugPrint("ax is trusted: \(trusted)")
+        guard trusted != trustPublisher.value else { return }
+        trustPublisher.send(trusted)
+    }
+
     private init() {}
 }
 
