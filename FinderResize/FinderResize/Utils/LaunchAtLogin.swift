@@ -1,6 +1,6 @@
 //
 //  LaunchAtLogin.swift
-//  FinderEnhancer
+//  FinderResize
 //
 //  Created by Eden on 2023/9/26.
 //

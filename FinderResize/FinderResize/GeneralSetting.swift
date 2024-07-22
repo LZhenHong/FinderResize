@@ -1,6 +1,6 @@
 //
 //  GeneralSetting.swift
-//  FinderEnhancer
+//  FinderResize
 //
 //  Created by Eden on 2024/5/6.
 //
@@ -53,7 +53,7 @@ struct GeneralSettingView: View {
             }
         }
         .padding(.bottom, 3)
-        Text("FinderEnhancer requires Accessibility access to change Finder's window frame.")
+        Text("FinderResize requires Accessibility access to change Finder's window frame.")
             .fixedSize(horizontal: false, vertical: true)
             .settingPropmt()
     }

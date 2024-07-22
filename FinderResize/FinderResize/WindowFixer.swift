@@ -1,6 +1,6 @@
 //
 //  WindowFixer.swift
-//  FinderEnhancer
+//  FinderResize
 //
 //  Created by Eden on 2024/5/9.
 //

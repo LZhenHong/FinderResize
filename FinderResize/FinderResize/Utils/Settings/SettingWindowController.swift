@@ -1,6 +1,6 @@
 //
 //  SettingWindowController.swift
-//  FinderEnhancer
+//  FinderResize
 //
 //  Created by Eden on 2023/10/17.
 //

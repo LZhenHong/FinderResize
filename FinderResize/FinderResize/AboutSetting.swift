@@ -1,6 +1,6 @@
 //
 //  AboutSetting.swift
-//  FinderEnhancer
+//  FinderResize
 //
 //  Created by Eden on 2024/5/6.
 //
@@ -31,7 +31,7 @@ struct AboutSettingView: View {
     var body: some View {
         VStack {
             Image(nsImage: NSApp.applicationIconImage)
-            Text(Bundle.main.appName ?? "FinderEnhancer")
+            Text(Bundle.main.appName ?? "FinderResize")
                 .font(.title)
                 .fontWeight(.bold)
             Text("Version: \(displayVersion)")

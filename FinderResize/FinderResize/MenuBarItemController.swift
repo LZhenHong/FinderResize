@@ -1,6 +1,6 @@
 //
 //  MenuBarItemController.swift
-//  FinderEnhancer
+//  FinderResize
 //
 //  Created by Eden on 2023/9/20.
 //
@@ -38,7 +38,7 @@ final class MenuBarItemController {
         statusItem.isVisible = true
         statusItem.behavior = .terminationOnRemoval
 
-        btn.image = NSImage(systemSymbolName: "macwindow.on.rectangle", accessibilityDescription: "FinderEnhancer")
+        btn.image = NSImage(systemSymbolName: "macwindow.on.rectangle", accessibilityDescription: "FinderResize")
         btn.image?.size = NSSize(width: 18, height: 18)
         btn.image?.isTemplate = true
 
@@ -115,6 +115,6 @@ final class MenuBarItemController {
     private func changeMenuBarItemImage(with name: String) {
         guard let btn = statusItem?.button else { return }
 
-        btn.image = NSImage(systemSymbolName: name, accessibilityDescription: "FinderEnhancer")
+        btn.image = NSImage(systemSymbolName: name, accessibilityDescription: "FinderResize")
     }
 }
