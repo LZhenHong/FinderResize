@@ -13,8 +13,14 @@
     "Center" : {
 
     },
+    "Close Window" : {
+      "comment" : "Close Window menu item"
+    },
     "Custom" : {
 
+    },
+    "File" : {
+      "comment" : "File Menu"
     },
     "FinderResize requires Accessibility access to change Finder's window frame." : {
 
