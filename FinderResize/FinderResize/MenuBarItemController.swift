@@ -93,7 +93,7 @@ final class MenuBarItemController {
             }
             MenuItemBuilder()
                 .title(String(localized: "Launch at Login"))
-                .onHighlight(LaunchAtLogin.enabledPulisher.eraseToAnyPublisher())
+                .onHighlight(LaunchAtLogin.enabledPublisher.eraseToAnyPublisher())
                 .onSelect {
                     LaunchAtLogin.toggle()
                 }

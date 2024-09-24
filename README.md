@@ -6,4 +6,5 @@ Keep Finder's window size.
 - [x] Setting View
 - [ ] Icon
 - [ ] i18n
-- [ ] DMG
+- [ ] DMG/GitHub Actions
+- [ ] Auto increase build
