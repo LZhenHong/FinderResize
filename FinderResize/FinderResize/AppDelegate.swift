@@ -8,39 +8,39 @@
 import Cocoa
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    func applicationWillFinishLaunching(_ notification: Notification) {
-        populateMainMenu()
-    }
+  func applicationWillFinishLaunching(_: Notification) {
+    populateMainMenu()
+  }
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        AXUtils.checkIsTrusted()
-        MenuBarItemController.shared.setUp()
+  func applicationDidFinishLaunching(_: Notification) {
+    AXUtils.checkIsTrusted()
+    MenuBarItemController.shared.setUp()
 
-        createFinderWindowFixer()
-    }
+    createFinderWindowFixer()
+  }
 
-    private func createFinderWindowFixer() {
-        _ = sharedFinderWindowFixer()
-    }
+  private func createFinderWindowFixer() {
+    _ = sharedFinderWindowFixer()
+  }
 
-    func applicationDidBecomeActive(_ notification: Notification) {
-        AXUtils.checkTrustStatus()
-    }
+  func applicationDidBecomeActive(_: Notification) {
+    AXUtils.checkTrustStatus()
+  }
 }
 
 extension AppDelegate {
-    func populateMainMenu() {
-        let mainMenu = NSMenu(title: "Main Menu")
-        let fileMenuItem = mainMenu.addItem(withTitle: "File", action: nil, keyEquivalent: "")
-        let submenu = NSMenu(title: String(localized: "File"))
+  func populateMainMenu() {
+    let mainMenu = NSMenu(title: "Main Menu")
+    let fileMenuItem = mainMenu.addItem(withTitle: "File", action: nil, keyEquivalent: "")
+    let submenu = NSMenu(title: String(localized: "File"))
 
-        let closeWindowItem = NSMenuItem(title: String(localized: "Close Window"),
-                                         action: #selector(NSWindow.performClose(_:)),
-                                         keyEquivalent: "w")
-        submenu.addItem(closeWindowItem)
+    let closeWindowItem = NSMenuItem(title: String(localized: "Close Window"),
+                                     action: #selector(NSWindow.performClose(_:)),
+                                     keyEquivalent: "w")
+    submenu.addItem(closeWindowItem)
 
-        mainMenu.setSubmenu(submenu, for: fileMenuItem)
+    mainMenu.setSubmenu(submenu, for: fileMenuItem)
 
-        NSApp.mainMenu = mainMenu
-    }
+    NSApp.mainMenu = mainMenu
+  }
 }

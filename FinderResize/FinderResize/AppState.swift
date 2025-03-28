@@ -10,25 +10,25 @@ import SwiftUI
 
 @storage
 class AppState: ObservableObject {
-    enum WindowPlace: Int {
-        case center, custom
-    }
+  enum WindowPlace: Int {
+    case center, custom
+  }
 
-    enum WindowScreen: Int {
-        case main, current
-    }
+  enum WindowScreen: Int {
+    case main, current
+  }
 
-    var resizeWindow = false
-    var windowSize: CGSize = .zero
+  var resizeWindow = false
+  var windowSize: CGSize = .zero
 
-    var placeWindow = false
-    var place: WindowPlace = .center
-    var position: CGPoint = .zero
-    var effectFirstWindow = false
+  var placeWindow = false
+  var place: WindowPlace = .center
+  var position: CGPoint = .zero
+  var effectFirstWindow = false
 
-    var screen: WindowScreen = .main
+  var screen: WindowScreen = .main
 
-    static let shared = AppState()
+  static let shared = AppState()
 
-    private init() {}
+  private init() {}
 }

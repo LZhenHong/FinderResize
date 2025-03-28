@@ -11,22 +11,22 @@ import os.log
 import ServiceManagement
 
 enum LaunchAtLogin {
-    static let enabledPublisher = CurrentValueSubject<Bool, Never>(isEnabled)
+  static let enabledPublisher = CurrentValueSubject<Bool, Never>(isEnabled)
 
-    static var isEnabled: Bool {
-        SMAppService.mainApp.status == .enabled
-    }
+  static var isEnabled: Bool {
+    SMAppService.mainApp.status == .enabled
+  }
 
-    static func toggle() {
-        do {
-            if isEnabled {
-                try SMAppService.mainApp.unregister()
-            } else {
-                try SMAppService.mainApp.register()
-            }
-            enabledPublisher.send(isEnabled)
-        } catch {
-            print("Failed to \(isEnabled ? "unregister" : "register") launch at login: \(error)")
-        }
+  static func toggle() {
+    do {
+      if isEnabled {
+        try SMAppService.mainApp.unregister()
+      } else {
+        try SMAppService.mainApp.register()
+      }
+      enabledPublisher.send(isEnabled)
+    } catch {
+      print("Failed to \(isEnabled ? "unregister" : "register") launch at login: \(error)")
     }
+  }
 }
