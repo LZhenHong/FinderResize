@@ -10,6 +10,18 @@
             "state" : "new",
             "value" : "FinderResize"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FinderResize"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FinderResize"
+          }
         }
       }
     },
@@ -20,7 +32,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : ""
+            "value" : "Copyright © 2025 Eden. All rights reserved."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 Eden. All rights reserved."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 Eden. All rights reserved."
           }
         }
       }
