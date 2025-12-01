@@ -16,10 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     AXUtils.checkIsTrusted()
     MenuBarItemController.shared.setUp()
 
-    createFinderWindowFixer()
-  }
-
-  private func createFinderWindowFixer() {
     FinderWindowFixer.shared()
   }
 

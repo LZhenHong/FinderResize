@@ -96,7 +96,7 @@ final class MenuBarItemController {
         }
       MenuItemBuilder()
         .title(String(localized: "Settings"))
-        .shortcuts(",")
+        .keyEquivalent(",")
         .onSelect {
           self.settingsWindowController.show()
         }

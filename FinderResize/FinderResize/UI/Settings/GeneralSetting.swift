@@ -163,6 +163,15 @@ struct GeneralSettingView: View {
   }
 }
 
+// MARK: - View Helpers
+
+private extension View {
+  func settingPrompt() -> some View {
+    font(.system(size: 11))
+      .foregroundColor(.secondary)
+  }
+}
+
 #Preview {
   GeneralSettingView(state: .shared)
     .frame(width: GeneralSettingView.Layout.settingsPaneWidth)
