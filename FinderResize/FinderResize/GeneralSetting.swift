@@ -58,21 +58,21 @@ struct GeneralSettingView: View {
       .settingPropmt()
   }
 
-  var sizeFormatter: NumberFormatter {
+  private static let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal
     formatter.minimum = 100
     formatter.maximum = 10000
     return formatter
-  }
+  }()
 
-  var zeroFormatter: NumberFormatter {
+  private static let zeroFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal
     formatter.minimum = 0
     formatter.maximum = 10000
     return formatter
-  }
+  }()
 
   @ViewBuilder var sizeView: some View {
     Toggle("Resize window to:", isOn: $state.resizeWindow)
@@ -80,14 +80,14 @@ struct GeneralSettingView: View {
       HStack {
         Text("Width")
           .font(.subheadline)
-        TextField("Width", value: $state.windowSize.width, formatter: sizeFormatter)
+        TextField("Width", value: $state.windowSize.width, formatter: Self.sizeFormatter)
           .font(.subheadline)
           .frame(width: 50)
       }
       HStack {
         Text("Height")
           .font(.subheadline)
-        TextField("Height", value: $state.windowSize.height, formatter: sizeFormatter)
+        TextField("Height", value: $state.windowSize.height, formatter: Self.sizeFormatter)
           .font(.subheadline)
           .frame(width: 50)
       }
@@ -107,14 +107,14 @@ struct GeneralSettingView: View {
           HStack {
             Text("X")
               .font(.subheadline)
-            TextField("X", value: $state.position.x, formatter: zeroFormatter)
+            TextField("X", value: $state.position.x, formatter: Self.zeroFormatter)
               .font(.subheadline)
               .frame(width: 50)
           }
           HStack {
             Text("Y")
               .font(.subheadline)
-            TextField("Y", value: $state.position.y, formatter: zeroFormatter)
+            TextField("Y", value: $state.position.y, formatter: Self.zeroFormatter)
               .font(.subheadline)
               .frame(width: 50)
           }

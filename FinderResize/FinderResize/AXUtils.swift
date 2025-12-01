@@ -21,9 +21,8 @@ class AXUtils {
       return true
     }
 
-    let key = kAXTrustedCheckOptionPrompt.takeRetainedValue() as String
+    let key = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
     let trust = AXIsProcessTrustedWithOptions([key: true] as CFDictionary)
-    trust ? print("ok") : print("error")
     return trust
   }
 

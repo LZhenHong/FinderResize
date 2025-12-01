@@ -19,7 +19,7 @@ class AppState: ObservableObject {
   }
 
   var resizeWindow = false
-  var windowSize: CGSize = .zero
+  var windowSize: CGSize = CGSize(width: 1200, height: 800)
 
   var placeWindow = false
   var place: WindowPlace = .center

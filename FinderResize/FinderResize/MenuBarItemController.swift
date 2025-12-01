@@ -6,13 +6,11 @@
 //
 
 import Cocoa
-import Combine
 import SettingsKit
 
 final class MenuBarItemController {
   static let shared = MenuBarItemController()
 
-  private var subscriptions = Set<AnyCancellable>()
   private var statusItem: NSStatusItem!
 
   private lazy var settingsWindowController = SettingsWindowController(
@@ -107,11 +105,5 @@ final class MenuBarItemController {
           NSApp.terminate(self)
         }
     }
-  }
-
-  private func changeMenuBarItemImage(with name: String) {
-    guard let btn = statusItem?.button else { return }
-
-    btn.image = NSImage(systemSymbolName: name, accessibilityDescription: "FinderResize")
   }
 }

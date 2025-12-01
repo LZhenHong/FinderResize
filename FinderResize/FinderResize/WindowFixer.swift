@@ -60,7 +60,7 @@ class WindowFixer {
     removeObserver()
 
     let pid = app.processIdentifier
-    debugPrint("Finder applicaiton pid: \(pid)")
+    debugPrint("Finder application pid: \(pid)")
     self.app = AXUIElementCreateApplication(pid)
 
     let createError = AXObserverCreate(pid, { _, _, _, refcon in
