@@ -1,6 +1,15 @@
 {
-  "originHash" : "da26bf77aacc6d7790cf512638959361e6d8ed08e0e7b715e3846f67c547ddc1",
+  "originHash" : "dbc92a3ed3c145040d05ef7a74924bddf24ac3f08e0d9d9d11eb9371da705e6b",
   "pins" : [
+    {
+      "identity" : "settingskit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/LZhenHong/SettingsKit.git",
+      "state" : {
+        "revision" : "4fc0e89a929a9b0cfa7ceff81590fa909de345f3",
+        "version" : "0.0.1"
+      }
+    },
     {
       "identity" : "storagemacro",
       "kind" : "remoteSourceControl",

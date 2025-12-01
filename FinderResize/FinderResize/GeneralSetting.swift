@@ -6,9 +6,10 @@
 //
 
 import Cocoa
+import SettingsKit
 import SwiftUI
 
-struct GeneralSetting: SettingContentRepresentable {
+struct GeneralSettingPane: SettingsPane {
   var tabViewImage: NSImage? {
     NSImage(systemSymbolName: "gearshape.circle", accessibilityDescription: nil)
   }
@@ -17,10 +18,9 @@ struct GeneralSetting: SettingContentRepresentable {
     String(localized: "General")
   }
 
-  var view: AnyView {
+  var view: some View {
     GeneralSettingView(state: .shared)
       .frame(width: 400)
-      .eraseToAnyView()
   }
 }
 

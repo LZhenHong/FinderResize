@@ -6,9 +6,10 @@
 //
 
 import Cocoa
+import SettingsKit
 import SwiftUI
 
-struct AboutSetting: SettingContentRepresentable {
+struct AboutSettingPane: SettingsPane {
   var tabViewImage: NSImage? {
     NSImage(systemSymbolName: "info.circle", accessibilityDescription: nil)
   }
@@ -17,9 +18,8 @@ struct AboutSetting: SettingContentRepresentable {
     String(localized: "About")
   }
 
-  var view: AnyView {
+  var view: some View {
     AboutSettingView()
-      .eraseToAnyView()
   }
 }
 

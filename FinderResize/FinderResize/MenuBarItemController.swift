@@ -7,7 +7,7 @@
 
 import Cocoa
 import Combine
-import os.log
+import SettingsKit
 
 final class MenuBarItemController {
   static let shared = MenuBarItemController()
@@ -15,13 +15,10 @@ final class MenuBarItemController {
   private var subscriptions = Set<AnyCancellable>()
   private var statusItem: NSStatusItem!
 
-  private lazy var settingWindowController: SettingWindowController = {
-    let settings: [SettingContentRepresentable] = [
-      GeneralSetting(),
-      AboutSetting(),
-    ]
-    return SettingWindowController(settings: settings)
-  }()
+  private lazy var settingsWindowController = SettingsWindowController(
+    panes: [GeneralSettingPane(), AboutSettingPane()],
+    title: String(localized: "Settings")
+  )
 
   private init() {}
 
@@ -101,7 +98,7 @@ final class MenuBarItemController {
         .title(String(localized: "Settings"))
         .shortcuts(",")
         .onSelect {
-          self.settingWindowController.show()
+          self.settingsWindowController.show()
         }
       NSMenuItem.separator()
       MenuItemBuilder()
