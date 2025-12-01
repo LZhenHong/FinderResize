@@ -31,9 +31,9 @@ enum FinderWindowFixer {
 private extension FinderWindowFixer {
   static func handleNewWindows(_ newWindows: [AXUIElement], previousWindows: [AXUIElement]) {
     let shouldChangePosition = !AppState.shared.effectFirstWindow || hasNoValidWindow(previousWindows)
-    let validWindows = newWindows.filter { !$0.isQuickLookWindow }
+    let resizableWindows = newWindows.filter(\.shouldResize)
 
-    for window in validWindows {
+    for window in resizableWindows {
       applyWindowSettings(to: window, changePosition: shouldChangePosition)
     }
   }
@@ -73,9 +73,7 @@ private extension FinderWindowFixer {
   static func hasNoValidWindow(_ windows: [AXUIElement]) -> Bool {
     guard !windows.isEmpty else { return true }
 
-    return windows.allSatisfy { window in
-      window.getAttribute(.role) == nil
-    }
+    return windows.allSatisfy { $0.axRole == nil }
   }
 }
 
@@ -89,10 +87,7 @@ private extension FinderWindowFixer {
     guard let targetScreen, let mainScreen else { return nil }
 
     let windowSize = AppState.shared.windowSize
-    let visibleFrame = convertToAccessibilityCoordinates(
-      targetScreen.visibleFrame,
-      relativeTo: mainScreen.frame
-    )
+    let visibleFrame = targetScreen.visibleFrame.toAccessibilityCoordinates(relativeTo: mainScreen.frame)
 
     return calculatePositionInFrame(visibleFrame, windowSize: windowSize)
   }
@@ -106,56 +101,54 @@ private extension FinderWindowFixer {
     }
   }
 
-  /// Convert screen coordinates to Accessibility API coordinates.
-  /// Accessibility API uses top-left origin, while NSScreen uses bottom-left origin.
-  static func convertToAccessibilityCoordinates(_ frame: CGRect, relativeTo mainFrame: CGRect) -> CGRect {
-    let y = mainFrame.maxY - frame.maxY
-    return CGRect(x: frame.minX, y: y, width: frame.width, height: frame.height)
-  }
-
   static func calculatePositionInFrame(_ frame: CGRect, windowSize: CGSize) -> CGPoint {
     switch AppState.shared.place {
     case .center:
-      return CGPoint(
-        x: frame.midX - windowSize.width * 0.5,
-        y: frame.midY - windowSize.height * 0.5
-      )
-
+      frame.centerPoint(for: windowSize)
     case .custom:
-      let customPosition = AppState.shared.position
-      return CGPoint(
-        x: frame.minX + customPosition.x,
-        y: frame.minY + customPosition.y
-      )
+      frame.originPoint(withOffset: AppState.shared.position)
     }
   }
 }
 
-// MARK: - AXUIElement Helpers
+// MARK: - Window Type Detection
 
 private extension AXUIElement {
+  /// Determines if this window should be resized.
+  /// Excludes special windows like Quick Look and DMG installer windows.
+  var shouldResize: Bool {
+    let dominated = isQuickLookWindow || isDiskImageWindow
+    debugPrint("Window shouldResize: \(!dominated), isQuickLook: \(isQuickLookWindow), isDiskImage: \(isDiskImageWindow)")
+    return !dominated
+  }
+
   var isQuickLookWindow: Bool {
-    let subrole: String? = getAttribute(.subrole)
-    return subrole == .quickLookSubrole
+    axSubrole == .quickLookSubrole
   }
 
-  func getAttribute<T>(_ attribute: NSAccessibility.Attribute) -> T? {
-    var value: CFTypeRef?
-    let result = AXUIElementCopyAttributeValue(self, attribute.rawValue as CFString, &value)
-    guard result == .success else { return nil }
-    return value as? T
-  }
+  /// Checks if this window displays a mounted disk image (DMG).
+  var isDiskImageWindow: Bool {
+    guard let title = axTitle else {
+      debugPrint("isDiskImageWindow: no window title")
+      return false
+    }
 
-  func setSize(_ size: CGSize) {
-    var mutableSize = size
-    guard let value = AXValueCreate(.cgSize, &mutableSize) else { return }
-    AXUIElementSetAttributeValue(self, NSAccessibility.Attribute.size.rawValue as CFString, value)
-  }
+    debugPrint("isDiskImageWindow: window title = \(title)")
 
-  func setPosition(_ position: CGPoint) {
-    var mutablePosition = position
-    guard let value = AXValueCreate(.cgPoint, &mutablePosition) else { return }
-    AXUIElementSetAttributeValue(self, NSAccessibility.Attribute.position.rawValue as CFString, value)
+    let volumeURL = URL.volume(named: title)
+
+    // Check if this path exists and is a directory
+    var isDirectory: ObjCBool = false
+    guard FileManager.default.fileExists(atPath: volumeURL.path, isDirectory: &isDirectory),
+          isDirectory.boolValue
+    else {
+      debugPrint("isDiskImageWindow: \(volumeURL.path) is not a valid directory")
+      return false
+    }
+
+    let isDiskImage = volumeURL.isDiskImage
+    debugPrint("isDiskImageWindow: isDiskImage = \(isDiskImage)")
+    return isDiskImage
   }
 }
 

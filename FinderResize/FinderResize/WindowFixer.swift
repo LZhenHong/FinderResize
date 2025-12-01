@@ -171,20 +171,7 @@ private extension WindowFixer {
 
   func fetchWindows() -> [AXUIElement] {
     guard let app = axApplication else { return [] }
-
-    var value: CFTypeRef?
-    let error = AXUIElementCopyAttributeValue(
-      app,
-      NSAccessibility.Attribute.windows.rawValue as CFString,
-      &value
-    )
-
-    guard error == .success, let windows = value as? [AXUIElement] else {
-      debugPrint("Failed to fetch windows: \(error)")
-      return []
-    }
-
-    return windows
+    return app.axWindows ?? []
   }
 }
 
