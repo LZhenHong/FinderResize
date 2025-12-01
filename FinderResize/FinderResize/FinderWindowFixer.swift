@@ -39,47 +39,42 @@ private extension FinderWindowFixer {
   }
 
   static func applyWindowSettings(to window: AXUIElement, changePosition: Bool) {
-    resizeWindow(window)
+    guard let targetFrame = calculateTargetFrame(changePosition: changePosition) else {
+      // Only resize if no position change needed
+      if AppState.shared.resizeWindow {
+        window.setSize(AppState.shared.windowSize)
+      }
+      return
+    }
 
-    guard changePosition else { return }
-
-    placeWindow(window)
-    // Resize again after positioning to ensure correct size
-    resizeWindow(window)
+    animateWindow(window, to: targetFrame)
   }
 }
 
-// MARK: - Window Operations
+// MARK: - Frame Calculation
 
 private extension FinderWindowFixer {
-  static func resizeWindow(_ window: AXUIElement) {
-    guard AppState.shared.resizeWindow else { return }
+  static func calculateTargetFrame(changePosition: Bool) -> CGRect? {
+    let state = AppState.shared
 
-    let size = AppState.shared.windowSize
-    window.setSize(size)
+    guard changePosition, state.placeWindow else {
+      return nil
+    }
+
+    guard let position = calculateWindowPosition() else {
+      return nil
+    }
+
+    let size = state.resizeWindow ? state.windowSize : nil
+
+    // If we have both position and size, return full frame
+    if let size {
+      return CGRect(origin: position, size: size)
+    }
+
+    return nil
   }
 
-  static func placeWindow(_ window: AXUIElement) {
-    guard AppState.shared.placeWindow else { return }
-    guard let position = calculateWindowPosition() else { return }
-
-    window.setPosition(position)
-  }
-}
-
-// MARK: - Window Validation
-
-private extension FinderWindowFixer {
-  static func hasNoValidWindow(_ windows: [AXUIElement]) -> Bool {
-    guard !windows.isEmpty else { return true }
-
-    return windows.allSatisfy { $0.axRole == nil }
-  }
-}
-
-// MARK: - Screen Position Calculation
-
-private extension FinderWindowFixer {
   static func calculateWindowPosition() -> CGPoint? {
     let targetScreen = resolveTargetScreen()
     let mainScreen = NSScreen.screens.first
@@ -111,44 +106,32 @@ private extension FinderWindowFixer {
   }
 }
 
-// MARK: - Window Type Detection
+// MARK: - Window Animation
 
-private extension AXUIElement {
-  /// Determines if this window should be resized.
-  /// Excludes special windows like Quick Look and DMG installer windows.
-  var shouldResize: Bool {
-    let dominated = isQuickLookWindow || isDiskImageWindow
-    debugPrint("Window shouldResize: \(!dominated), isQuickLook: \(isQuickLookWindow), isDiskImage: \(isDiskImageWindow)")
-    return !dominated
-  }
-
-  var isQuickLookWindow: Bool {
-    axSubrole == .quickLookSubrole
-  }
-
-  /// Checks if this window displays a mounted disk image (DMG).
-  var isDiskImageWindow: Bool {
-    guard let title = axTitle else {
-      debugPrint("isDiskImageWindow: no window title")
-      return false
-    }
-
-    debugPrint("isDiskImageWindow: window title = \(title)")
-
-    let volumeURL = URL.volume(named: title)
-
-    // Check if this path exists and is a directory
-    var isDirectory: ObjCBool = false
-    guard FileManager.default.fileExists(atPath: volumeURL.path, isDirectory: &isDirectory),
-          isDirectory.boolValue
+private extension FinderWindowFixer {
+  static func animateWindow(_ window: AXUIElement, to targetFrame: CGRect) {
+    guard let currentPosition = window.getPosition(),
+          let currentSize = window.getSize()
     else {
-      debugPrint("isDiskImageWindow: \(volumeURL.path) is not a valid directory")
-      return false
+      // Fallback: set directly without animation
+      window.setPosition(targetFrame.origin)
+      window.setSize(targetFrame.size)
+      return
     }
 
-    let isDiskImage = volumeURL.isDiskImage
-    debugPrint("isDiskImageWindow: isDiskImage = \(isDiskImage)")
-    return isDiskImage
+    let startFrame = CGRect(origin: currentPosition, size: currentSize)
+    let animator = WindowAnimator(window: window, from: startFrame, to: targetFrame)
+    animator.start()
+  }
+}
+
+// MARK: - Window Validation
+
+private extension FinderWindowFixer {
+  static func hasNoValidWindow(_ windows: [AXUIElement]) -> Bool {
+    guard !windows.isEmpty else { return true }
+
+    return windows.allSatisfy { $0.axRole == nil }
   }
 }
 
@@ -156,5 +139,4 @@ private extension AXUIElement {
 
 private extension String {
   static let finderBundleIdentifier = "com.apple.finder"
-  static let quickLookSubrole = "Quick Look"
 }
