@@ -64,7 +64,9 @@ final class MenuBarItemController {
 
   private func showMenu(_ menu: NSMenu, for item: NSStatusItem) {
     item.menu = menu
-    /// tricks
+    /// Programmatically trigger the menu display. Setting menu to nil afterward
+    /// allows us to intercept clicks again via sendAction(on:) instead of
+    /// always showing the menu automatically.
     item.button?.performClick(nil)
     item.menu = nil
   }

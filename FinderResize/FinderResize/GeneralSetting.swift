@@ -20,11 +20,16 @@ struct GeneralSettingPane: SettingsPane {
 
   var view: some View {
     GeneralSettingView(state: .shared)
-      .frame(width: 400)
+      .frame(width: GeneralSettingView.Layout.settingsPaneWidth)
   }
 }
 
 struct GeneralSettingView: View {
+  enum Layout {
+    static let settingsPaneWidth: CGFloat = 400
+    static let numberFieldWidth: CGFloat = 50
+  }
+
   @ObservedObject var state: AppState
 
   @State private var accessibilityEnable = AXUtils.trusted
@@ -55,7 +60,7 @@ struct GeneralSettingView: View {
     .padding(.bottom, 3)
     Text("FinderResize requires Accessibility access to change Finder's window frame.")
       .fixedSize(horizontal: false, vertical: true)
-      .settingPropmt()
+      .settingPrompt()
   }
 
   private static let sizeFormatter: NumberFormatter = {
@@ -82,14 +87,14 @@ struct GeneralSettingView: View {
           .font(.subheadline)
         TextField("Width", value: $state.windowSize.width, formatter: Self.sizeFormatter)
           .font(.subheadline)
-          .frame(width: 50)
+          .frame(width: Layout.numberFieldWidth)
       }
       HStack {
         Text("Height")
           .font(.subheadline)
         TextField("Height", value: $state.windowSize.height, formatter: Self.sizeFormatter)
           .font(.subheadline)
-          .frame(width: 50)
+          .frame(width: Layout.numberFieldWidth)
       }
     }
     .padding(.top, 1)
@@ -109,14 +114,14 @@ struct GeneralSettingView: View {
               .font(.subheadline)
             TextField("X", value: $state.position.x, formatter: Self.zeroFormatter)
               .font(.subheadline)
-              .frame(width: 50)
+              .frame(width: Layout.numberFieldWidth)
           }
           HStack {
             Text("Y")
               .font(.subheadline)
             TextField("Y", value: $state.position.y, formatter: Self.zeroFormatter)
               .font(.subheadline)
-              .frame(width: 50)
+              .frame(width: Layout.numberFieldWidth)
           }
         }
         .padding(.leading, 10)
@@ -160,5 +165,5 @@ struct GeneralSettingView: View {
 
 #Preview {
   GeneralSettingView(state: .shared)
-    .frame(width: 400)
+    .frame(width: GeneralSettingView.Layout.settingsPaneWidth)
 }

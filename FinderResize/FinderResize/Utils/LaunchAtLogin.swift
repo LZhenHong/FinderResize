@@ -7,7 +7,6 @@
 
 import Combine
 import Foundation
-import os.log
 import ServiceManagement
 
 enum LaunchAtLogin {
@@ -26,7 +25,7 @@ enum LaunchAtLogin {
       }
       enabledPublisher.send(isEnabled)
     } catch {
-      print("Failed to \(isEnabled ? "unregister" : "register") launch at login: \(error)")
+      debugPrint("Failed to \(isEnabled ? "unregister" : "register") launch at login: \(error)")
     }
   }
 }

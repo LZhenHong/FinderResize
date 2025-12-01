@@ -51,7 +51,7 @@ private func isQuickLookWindow(_ window: AXUIElement) -> Bool {
   guard result == .success, let subrole = subrole as? String else {
     return false
   }
-  return subrole == "Quick Look"
+  return subrole == .quickLookSubrole
 }
 
 private func resizeWindow(_ window: AXUIElement) {
@@ -108,4 +108,5 @@ private func placeWindow(_ window: AXUIElement) {
 
 extension String {
   static let finderBundleIdentifier = "com.apple.finder"
+  static let quickLookSubrole = "Quick Look"
 }

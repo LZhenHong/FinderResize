@@ -40,6 +40,6 @@ struct AboutSettingView: View {
     }
     .padding(.top, 10)
     .padding(.bottom, 20)
-    .frame(width: 400)
+    .frame(width: GeneralSettingView.Layout.settingsPaneWidth)
   }
 }

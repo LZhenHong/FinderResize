@@ -56,7 +56,7 @@ class WindowFixer {
   }
 
   private func addAXObserver(for app: NSRunningApplication) {
-    /// Remove observer if exsits
+    /// Remove observer if exists
     removeObserver()
 
     let pid = app.processIdentifier

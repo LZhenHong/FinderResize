@@ -8,7 +8,7 @@
 import Cocoa
 import Combine
 
-class AXUtils {
+enum AXUtils {
   static let trustPublisher = CurrentValueSubject<Bool, Never>(trusted)
 
   static var trusted: Bool {
@@ -36,8 +36,6 @@ class AXUtils {
     guard trusted != trustPublisher.value else { return }
     trustPublisher.send(trusted)
   }
-
-  private init() {}
 }
 
 extension String {

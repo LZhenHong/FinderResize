@@ -17,7 +17,7 @@ public extension RawRepresentable where RawValue == String, Self: Codable {
       let data = try encoder.encode(self)
       return String(data: data, encoding: .utf8) ?? ""
     } catch {
-      print("Encode CGSize error: \(error)")
+      debugPrint("Encode CGSize error: \(error)")
       return ""
     }
   }
@@ -35,7 +35,7 @@ public extension RawRepresentable where RawValue == String, Self: Codable {
       let instance = try decoder.decode(Self.self, from: data)
       self = instance
     } catch {
-      print("Decode CGSize error: \(error)")
+      debugPrint("Decode CGSize error: \(error)")
       return nil
     }
   }
