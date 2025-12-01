@@ -7,106 +7,161 @@
 
 import Cocoa
 
-func sharedFinderWindowFixer() -> WindowFixer {
-  if let fixer = finderWindowFixer {
+// MARK: - FinderWindowFixer
+
+enum FinderWindowFixer {
+  private static var instance: WindowFixer?
+
+  @discardableResult
+  static func shared() -> WindowFixer {
+    if let instance {
+      return instance
+    }
+
+    let fixer = WindowFixer(appBundleIdentifier: .finderBundleIdentifier) { newWindows, _, previousWindows in
+      handleNewWindows(newWindows, previousWindows: previousWindows)
+    }
+    instance = fixer
     return fixer
   }
-  finderWindowFixer = WindowFixer(appBundleIdentifier: .finderBundleIdentifier) { new, _, pre in
-    resizeNewFinderWindow(new, needChangeWindowPosition: !AppState.shared.effectFirstWindow || hasNoValidWindow(pre))
-  }
-  return finderWindowFixer!
 }
 
-private func hasNoValidWindow(_ windows: [AXUIElement]) -> Bool {
-  guard !windows.isEmpty else {
-    return true
-  }
+// MARK: - Window Event Handling
 
-  for window in windows {
-    var attribute: CFTypeRef?
-    let error = AXUIElementCopyAttributeValue(window, NSAccessibility.Attribute.role.rawValue as CFString, &attribute)
-    if error != .invalidUIElement {
-      return false
+private extension FinderWindowFixer {
+  static func handleNewWindows(_ newWindows: [AXUIElement], previousWindows: [AXUIElement]) {
+    let shouldChangePosition = !AppState.shared.effectFirstWindow || hasNoValidWindow(previousWindows)
+    let validWindows = newWindows.filter { !$0.isQuickLookWindow }
+
+    for window in validWindows {
+      applyWindowSettings(to: window, changePosition: shouldChangePosition)
     }
   }
-  return true
-}
 
-private var finderWindowFixer: WindowFixer?
+  static func applyWindowSettings(to window: AXUIElement, changePosition: Bool) {
+    resizeWindow(window)
 
-private func resizeNewFinderWindow(_ elements: [AXUIElement], needChangeWindowPosition: Bool) {
-  for element in elements.filter({ !isQuickLookWindow($0) }) {
-    resizeWindow(element)
-    guard needChangeWindowPosition else { return }
-    placeWindow(element)
-    resizeWindow(element)
+    guard changePosition else { return }
+
+    placeWindow(window)
+    // Resize again after positioning to ensure correct size
+    resizeWindow(window)
   }
 }
 
-private func isQuickLookWindow(_ window: AXUIElement) -> Bool {
-  var subrole: CFTypeRef?
-  let result = AXUIElementCopyAttributeValue(window,
-                                             NSAccessibility.Attribute.subrole.rawValue as CFString,
-                                             &subrole)
-  guard result == .success, let subrole = subrole as? String else {
-    return false
-  }
-  return subrole == .quickLookSubrole
-}
+// MARK: - Window Operations
 
-private func resizeWindow(_ window: AXUIElement) {
-  guard AppState.shared.resizeWindow else { return }
+private extension FinderWindowFixer {
+  static func resizeWindow(_ window: AXUIElement) {
+    guard AppState.shared.resizeWindow else { return }
 
-  var size = CGSize(width: AppState.shared.windowSize.width, height: AppState.shared.windowSize.height)
-  guard let sizeValue = AXValueCreate(.cgSize, &size) else { return }
-
-  AXUIElementSetAttributeValue(window,
-                               NSAccessibility.Attribute.size.rawValue as CFString,
-                               sizeValue)
-}
-
-private func placeWindow(_ window: AXUIElement) {
-  guard AppState.shared.placeWindow else { return }
-
-  var targetScreen: NSScreen?
-  switch AppState.shared.screen {
-  case .main:
-    targetScreen = .screens.first
-  case .current:
-    targetScreen = .main
+    let size = AppState.shared.windowSize
+    window.setSize(size)
   }
 
-  let mainScreen: NSScreen? = .screens.first
+  static func placeWindow(_ window: AXUIElement) {
+    guard AppState.shared.placeWindow else { return }
+    guard let position = calculateWindowPosition() else { return }
 
-  guard let targetScreen, let mainScreen else { return }
-
-  let size = AppState.shared.windowSize
-  var point: CGPoint = .zero
-
-  let mainFrame = mainScreen.frame
-  let targetVisibleFrame = targetScreen.visibleFrame
-
-  let y = mainFrame.maxY - targetVisibleFrame.maxY
-  let resizeFrame = CGRect(x: targetVisibleFrame.minX, y: y, width: targetVisibleFrame.width, height: targetVisibleFrame.height)
-
-  switch AppState.shared.place {
-  case .center:
-    point.x = resizeFrame.midX - size.width * 0.5
-    point.y = resizeFrame.midY - size.height * 0.5
-
-  case .custom:
-    point.x = resizeFrame.minX + AppState.shared.position.x
-    point.y = resizeFrame.minY + AppState.shared.position.y
+    window.setPosition(position)
   }
-
-  guard let pointValue = AXValueCreate(.cgPoint, &point) else { return }
-
-  AXUIElementSetAttributeValue(window,
-                               NSAccessibility.Attribute.position.rawValue as CFString,
-                               pointValue)
 }
 
-extension String {
+// MARK: - Window Validation
+
+private extension FinderWindowFixer {
+  static func hasNoValidWindow(_ windows: [AXUIElement]) -> Bool {
+    guard !windows.isEmpty else { return true }
+
+    return windows.allSatisfy { window in
+      window.getAttribute(.role) == nil
+    }
+  }
+}
+
+// MARK: - Screen Position Calculation
+
+private extension FinderWindowFixer {
+  static func calculateWindowPosition() -> CGPoint? {
+    let targetScreen = resolveTargetScreen()
+    let mainScreen = NSScreen.screens.first
+
+    guard let targetScreen, let mainScreen else { return nil }
+
+    let windowSize = AppState.shared.windowSize
+    let visibleFrame = convertToAccessibilityCoordinates(
+      targetScreen.visibleFrame,
+      relativeTo: mainScreen.frame
+    )
+
+    return calculatePositionInFrame(visibleFrame, windowSize: windowSize)
+  }
+
+  static func resolveTargetScreen() -> NSScreen? {
+    switch AppState.shared.screen {
+    case .main:
+      NSScreen.screens.first
+    case .current:
+      NSScreen.main
+    }
+  }
+
+  /// Convert screen coordinates to Accessibility API coordinates.
+  /// Accessibility API uses top-left origin, while NSScreen uses bottom-left origin.
+  static func convertToAccessibilityCoordinates(_ frame: CGRect, relativeTo mainFrame: CGRect) -> CGRect {
+    let y = mainFrame.maxY - frame.maxY
+    return CGRect(x: frame.minX, y: y, width: frame.width, height: frame.height)
+  }
+
+  static func calculatePositionInFrame(_ frame: CGRect, windowSize: CGSize) -> CGPoint {
+    switch AppState.shared.place {
+    case .center:
+      return CGPoint(
+        x: frame.midX - windowSize.width * 0.5,
+        y: frame.midY - windowSize.height * 0.5
+      )
+
+    case .custom:
+      let customPosition = AppState.shared.position
+      return CGPoint(
+        x: frame.minX + customPosition.x,
+        y: frame.minY + customPosition.y
+      )
+    }
+  }
+}
+
+// MARK: - AXUIElement Helpers
+
+private extension AXUIElement {
+  var isQuickLookWindow: Bool {
+    let subrole: String? = getAttribute(.subrole)
+    return subrole == .quickLookSubrole
+  }
+
+  func getAttribute<T>(_ attribute: NSAccessibility.Attribute) -> T? {
+    var value: CFTypeRef?
+    let result = AXUIElementCopyAttributeValue(self, attribute.rawValue as CFString, &value)
+    guard result == .success else { return nil }
+    return value as? T
+  }
+
+  func setSize(_ size: CGSize) {
+    var mutableSize = size
+    guard let value = AXValueCreate(.cgSize, &mutableSize) else { return }
+    AXUIElementSetAttributeValue(self, NSAccessibility.Attribute.size.rawValue as CFString, value)
+  }
+
+  func setPosition(_ position: CGPoint) {
+    var mutablePosition = position
+    guard let value = AXValueCreate(.cgPoint, &mutablePosition) else { return }
+    AXUIElementSetAttributeValue(self, NSAccessibility.Attribute.position.rawValue as CFString, value)
+  }
+}
+
+// MARK: - Constants
+
+private extension String {
   static let finderBundleIdentifier = "com.apple.finder"
   static let quickLookSubrole = "Quick Look"
 }

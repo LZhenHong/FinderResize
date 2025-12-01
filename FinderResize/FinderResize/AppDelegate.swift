@@ -20,7 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func createFinderWindowFixer() {
-    _ = sharedFinderWindowFixer()
+    FinderWindowFixer.shared()
   }
 
   func applicationDidBecomeActive(_: Notification) {

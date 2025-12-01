@@ -7,116 +7,191 @@
 
 import Cocoa
 
-typealias WindowChangeListener = ([AXUIElement], [AXUIElement], [AXUIElement]) -> Void
+// MARK: - WindowFixer
 
-class WindowFixer {
-  private var observer: AXObserver!
-  private var app: AXUIElement!
-  private var windowElements: [AXUIElement] = []
+/// Monitors window creation events for a specific application using Accessibility API.
+final class WindowFixer {
+  // MARK: - Types
+
+  typealias WindowChangeHandler = (
+    _ newWindows: [AXUIElement],
+    _ allWindows: [AXUIElement],
+    _ previousWindows: [AXUIElement]
+  ) -> Void
+
+  // MARK: - Properties
 
   let appBundleIdentifier: String
-  let onWindowChanged: WindowChangeListener
+  private let onWindowChanged: WindowChangeHandler
 
-  init(appBundleIdentifier: String, onNewWindow: @escaping WindowChangeListener) {
+  private var axObserver: AXObserver?
+  private var axApplication: AXUIElement?
+  private var trackedWindows: [AXUIElement] = []
+
+  // MARK: - Initialization
+
+  init(appBundleIdentifier: String, onWindowChanged: @escaping WindowChangeHandler) {
     self.appBundleIdentifier = appBundleIdentifier
-    onWindowChanged = onNewWindow
+    self.onWindowChanged = onWindowChanged
 
     setUp()
   }
 
-  private func setUp() {
-    setUpListener()
-    setUpAXObserver()
+  deinit {
+    NSWorkspace.shared.notificationCenter.removeObserver(self)
+  }
+}
+
+// MARK: - Setup
+
+private extension WindowFixer {
+  func setUp() {
+    startMonitoringAppLaunch()
+    attachToRunningAppIfNeeded()
+  }
+}
+
+// MARK: - Application Monitoring
+
+private extension WindowFixer {
+  func startMonitoringAppLaunch() {
+    NSWorkspace.shared.notificationCenter.addObserver(
+      self,
+      selector: #selector(handleAppWillLaunch(_:)),
+      name: NSWorkspace.willLaunchApplicationNotification,
+      object: nil
+    )
   }
 
-  private func setUpListener() {
-    NSWorkspace.shared.notificationCenter.addObserver(self,
-                                                      selector: #selector(onApplicationWillLaunch(_:)),
-                                                      name: NSWorkspace.willLaunchApplicationNotification,
-                                                      object: nil)
-  }
-
-  @objc private func onApplicationWillLaunch(_ info: Notification) {
-    guard let app = info.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
+  @objc func handleAppWillLaunch(_ notification: Notification) {
+    guard let app = notification.runningApplication,
           app.bundleIdentifier == appBundleIdentifier
     else {
       return
     }
-    addAXObserver(for: app)
+    attachObserver(to: app)
   }
 
-  private func setUpAXObserver() {
-    let apps = NSRunningApplication.runningApplications(withBundleIdentifier: appBundleIdentifier)
-    guard !apps.isEmpty,
-          let app = apps.first(where: { $0.bundleIdentifier == appBundleIdentifier })
+  func attachToRunningAppIfNeeded() {
+    guard let app = findRunningApp() else { return }
+    attachObserver(to: app)
+  }
+
+  func findRunningApp() -> NSRunningApplication? {
+    NSRunningApplication
+      .runningApplications(withBundleIdentifier: appBundleIdentifier)
+      .first
+  }
+}
+
+// MARK: - AXObserver Management
+
+private extension WindowFixer {
+  func attachObserver(to app: NSRunningApplication) {
+    detachObserver()
+
+    let pid = app.processIdentifier
+    debugPrint("Attaching observer to application with pid: \(pid)")
+
+    axApplication = AXUIElementCreateApplication(pid)
+
+    guard let observer = createObserver(for: pid),
+          registerWindowNotification(observer)
     else {
       return
     }
-    addAXObserver(for: app)
+
+    axObserver = observer
+    addToRunLoop(observer)
+    trackedWindows = fetchWindows()
   }
 
-  private func addAXObserver(for app: NSRunningApplication) {
-    /// Remove observer if exists
-    removeObserver()
+  func detachObserver() {
+    guard let observer = axObserver, let app = axApplication else { return }
 
-    let pid = app.processIdentifier
-    debugPrint("Finder application pid: \(pid)")
-    self.app = AXUIElementCreateApplication(pid)
+    removeFromRunLoop(observer)
+    AXObserverRemoveNotification(observer, app, kAXWindowCreatedNotification as CFString)
 
-    let createError = AXObserverCreate(pid, { _, _, _, refcon in
-      guard let ref = refcon else { return }
-      let this = Unmanaged<WindowFixer>.fromOpaque(ref).takeUnretainedValue()
-      this.handleNewWindows()
-    }, &observer)
-
-    guard createError == .success, let observer else { return }
-
-    let this = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
-    let addError = AXObserverAddNotification(observer,
-                                             self.app,
-                                             kAXWindowCreatedNotification as CFString,
-                                             this)
-    guard addError == .success else { return }
-
-    CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer), .defaultMode)
-    windowElements = fetchLatestWindowElements()
+    axObserver = nil
+    axApplication = nil
+    trackedWindows = []
   }
 
-  private func handleNewWindows() {
-    let latestWindowElements = fetchLatestWindowElements()
-    let newWindowElements = latestWindowElements.filter { !windowElements.contains($0) }
-    guard !newWindowElements.isEmpty else { return }
+  func createObserver(for pid: pid_t) -> AXObserver? {
+    var observer: AXObserver?
+    let callback: AXObserverCallback = { _, _, _, refcon in
+      guard let refcon else { return }
+      let instance = Unmanaged<WindowFixer>.fromOpaque(refcon).takeUnretainedValue()
+      instance.handleWindowCreated()
+    }
 
-    onWindowChanged(newWindowElements, latestWindowElements, windowElements)
-    windowElements = latestWindowElements
+    let error = AXObserverCreate(pid, callback, &observer)
+    guard error == .success else { return nil }
+
+    return observer
   }
 
-  private func fetchLatestWindowElements() -> [AXUIElement] {
-    var value: AnyObject?
-    let error = AXUIElementCopyAttributeValue(app,
-                                              NSAccessibility.Attribute.windows.rawValue as CFString,
-                                              &value)
-    guard error == .success,
-          let windows = value as? [AXUIElement]
-    else {
-      debugPrint("Cant find windows for finder: \(error)")
+  func registerWindowNotification(_ observer: AXObserver) -> Bool {
+    guard let app = axApplication else { return false }
+
+    let pointer = Unmanaged.passUnretained(self).toOpaque()
+    let error = AXObserverAddNotification(
+      observer,
+      app,
+      kAXWindowCreatedNotification as CFString,
+      pointer
+    )
+
+    return error == .success
+  }
+
+  func addToRunLoop(_ observer: AXObserver) {
+    let runLoopSource = AXObserverGetRunLoopSource(observer)
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .defaultMode)
+  }
+
+  func removeFromRunLoop(_ observer: AXObserver) {
+    let runLoopSource = AXObserverGetRunLoopSource(observer)
+    CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, .defaultMode)
+  }
+}
+
+// MARK: - Window Tracking
+
+private extension WindowFixer {
+  func handleWindowCreated() {
+    let currentWindows = fetchWindows()
+    let newWindows = currentWindows.filter { !trackedWindows.contains($0) }
+
+    guard !newWindows.isEmpty else { return }
+
+    onWindowChanged(newWindows, currentWindows, trackedWindows)
+    trackedWindows = currentWindows
+  }
+
+  func fetchWindows() -> [AXUIElement] {
+    guard let app = axApplication else { return [] }
+
+    var value: CFTypeRef?
+    let error = AXUIElementCopyAttributeValue(
+      app,
+      NSAccessibility.Attribute.windows.rawValue as CFString,
+      &value
+    )
+
+    guard error == .success, let windows = value as? [AXUIElement] else {
+      debugPrint("Failed to fetch windows: \(error)")
       return []
     }
 
     return windows
   }
+}
 
-  private func removeObserver() {
-    guard let observer, let app else { return }
+// MARK: - Notification Helpers
 
-    CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer), .defaultMode)
-    AXObserverRemoveNotification(observer, app, kAXWindowCreatedNotification as CFString)
-    self.observer = nil
-    self.app = nil
-    windowElements = []
-  }
-
-  deinit {
-    NSWorkspace.shared.notificationCenter.removeObserver(self)
+private extension Notification {
+  var runningApplication: NSRunningApplication? {
+    userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication
   }
 }
