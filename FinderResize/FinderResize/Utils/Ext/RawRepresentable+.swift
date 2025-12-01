@@ -41,14 +41,14 @@ public extension RawRepresentable where RawValue == String, Self: Codable {
   }
 }
 
-extension CGSize: RawRepresentable {
+extension CGSize: @retroactive RawRepresentable {
   public typealias RawValue = String
 }
 
-extension CGPoint: RawRepresentable {
+extension CGPoint: @retroactive RawRepresentable {
   public typealias RawValue = String
 }
 
-extension Array: RawRepresentable where Element: Codable {
+extension Array: @retroactive RawRepresentable where Element: Codable {
   public typealias RawValue = String
 }
