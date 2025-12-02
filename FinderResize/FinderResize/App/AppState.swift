@@ -28,6 +28,8 @@ class AppState: ObservableObject {
 
   var screen: WindowScreen = .main
 
+  var disableAnimation = false
+
   static let shared = AppState()
 
   private init() {}

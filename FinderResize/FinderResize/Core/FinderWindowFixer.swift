@@ -110,6 +110,13 @@ private extension FinderWindowFixer {
 
 private extension FinderWindowFixer {
   static func animateWindow(_ window: AXUIElement, to targetFrame: CGRect) {
+    // Check if animation is disabled
+    if AppState.shared.disableAnimation {
+      window.setPosition(targetFrame.origin)
+      window.setSize(targetFrame.size)
+      return
+    }
+
     guard let currentPosition = window.getPosition(),
           let currentSize = window.getSize()
     else {

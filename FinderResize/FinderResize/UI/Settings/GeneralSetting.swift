@@ -147,6 +147,10 @@ struct GeneralSettingView: View {
     Toggle("Only effect to first Finder's window.", isOn: $state.effectFirstWindow)
   }
 
+  @ViewBuilder var disableAnimationView: some View {
+    Toggle(String(localized: "Disable window transition animation"), isOn: $state.disableAnimation)
+  }
+
   var body: some View {
     VStack(alignment: .leading) {
       accessibilityView
@@ -157,6 +161,8 @@ struct GeneralSettingView: View {
       onlyEffectFirstTimeView
       Divider()
       screenView
+      Divider()
+      disableAnimationView
     }
     .padding()
     .onReceive(AXUtils.trustPublisher) { accessibilityEnable = $0 }

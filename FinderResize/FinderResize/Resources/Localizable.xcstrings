@@ -98,6 +98,22 @@
         }
       }
     },
+    "Disable window transition animation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用窗口过渡动画"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停用視窗過渡動畫"
+          }
+        }
+      }
+    },
     "File" : {
       "comment" : "File Menu",
       "localizations" : {
