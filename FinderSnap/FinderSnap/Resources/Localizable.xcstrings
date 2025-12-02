@@ -117,18 +117,18 @@
         }
       }
     },
-    "Disable window transition animation" : {
+    "Enable window transition animation" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "禁用窗口过渡动画"
+            "value" : "启用窗口过渡动画"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "停用視窗過渡動畫"
+            "value" : "啟用視窗過渡動畫"
           }
         }
       }

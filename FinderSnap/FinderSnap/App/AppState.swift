@@ -28,7 +28,7 @@ class AppState: ObservableObject {
 
   var screen: WindowScreen = .main
 
-  var disableAnimation = false
+  var enableAnimation = true
   var animationDuration: Double = 0.25
 
   static let shared = AppState()

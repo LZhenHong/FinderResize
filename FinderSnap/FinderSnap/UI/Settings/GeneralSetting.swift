@@ -157,9 +157,9 @@ struct GeneralSettingView: View {
     return formatter
   }()
 
-  @ViewBuilder var disableAnimationView: some View {
-    Toggle(String(localized: "Disable window transition animation"), isOn: $state.disableAnimation)
-    if !state.disableAnimation {
+  @ViewBuilder var enableAnimationView: some View {
+    Toggle(String(localized: "Enable window transition animation"), isOn: $state.enableAnimation)
+    if state.enableAnimation {
       HStack {
         Text(String(localized: "Animation duration:"))
         Slider(value: $state.animationDuration, in: 0.1...1.0, step: 0.05)
@@ -186,7 +186,7 @@ struct GeneralSettingView: View {
       Divider()
       screenView
       Divider()
-      disableAnimationView
+      enableAnimationView
     }
     .padding()
     .onReceive(AXUtils.trustPublisher) { accessibilityEnable = $0 }

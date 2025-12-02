@@ -39,11 +39,7 @@ private extension FinderWindowFixer {
   }
 
   static func applyWindowSettings(to window: AXUIElement, changePosition: Bool) {
-    guard let targetFrame = calculateTargetFrame(changePosition: changePosition) else {
-      // Only resize if no position change needed
-      if AppState.shared.resizeWindow {
-        window.setSize(AppState.shared.windowSize)
-      }
+    guard let targetFrame = calculateTargetFrame(for: window, changePosition: changePosition) else {
       return
     }
 
@@ -54,34 +50,45 @@ private extension FinderWindowFixer {
 // MARK: - Frame Calculation
 
 private extension FinderWindowFixer {
-  static func calculateTargetFrame(changePosition: Bool) -> CGRect? {
+  static func calculateTargetFrame(for window: AXUIElement, changePosition: Bool) -> CGRect? {
     let state = AppState.shared
+    let shouldChangePosition = changePosition && state.placeWindow
+    let shouldResize = state.resizeWindow
 
-    guard changePosition, state.placeWindow else {
+    // Nothing to do if neither positioning nor resizing is enabled
+    guard shouldChangePosition || shouldResize else {
       return nil
     }
 
-    guard let position = calculateWindowPosition() else {
+    // Determine target size
+    let targetSize: CGSize
+    if shouldResize {
+      targetSize = state.windowSize
+    } else if let currentSize = window.getSize() {
+      targetSize = currentSize
+    } else {
       return nil
     }
 
-    let size = state.resizeWindow ? state.windowSize : nil
-
-    // If we have both position and size, return full frame
-    if let size {
-      return CGRect(origin: position, size: size)
+    // Determine target position
+    let targetPosition: CGPoint
+    if shouldChangePosition, let position = calculateWindowPosition(for: targetSize) {
+      targetPosition = position
+    } else if let currentPosition = window.getPosition() {
+      targetPosition = currentPosition
+    } else {
+      return nil
     }
 
-    return nil
+    return CGRect(origin: targetPosition, size: targetSize)
   }
 
-  static func calculateWindowPosition() -> CGPoint? {
+  static func calculateWindowPosition(for windowSize: CGSize) -> CGPoint? {
     let targetScreen = resolveTargetScreen()
     let mainScreen = NSScreen.screens.first
 
     guard let targetScreen, let mainScreen else { return nil }
 
-    let windowSize = AppState.shared.windowSize
     let visibleFrame = targetScreen.visibleFrame.toAccessibilityCoordinates(relativeTo: mainScreen.frame)
 
     return calculatePositionInFrame(visibleFrame, windowSize: windowSize)
@@ -111,7 +118,7 @@ private extension FinderWindowFixer {
 private extension FinderWindowFixer {
   static func animateWindow(_ window: AXUIElement, to targetFrame: CGRect) {
     // Check if animation is disabled
-    if AppState.shared.disableAnimation {
+    guard AppState.shared.enableAnimation else {
       window.setPosition(targetFrame.origin)
       window.setSize(targetFrame.size)
       return
