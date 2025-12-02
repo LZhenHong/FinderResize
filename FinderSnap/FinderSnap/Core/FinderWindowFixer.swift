@@ -127,7 +127,12 @@ private extension FinderWindowFixer {
     }
 
     let startFrame = CGRect(origin: currentPosition, size: currentSize)
-    let animator = WindowAnimator(window: window, from: startFrame, to: targetFrame)
+    let animator = WindowAnimator(
+      window: window,
+      from: startFrame,
+      to: targetFrame,
+      duration: AppState.shared.animationDuration
+    )
     animator.start()
   }
 }

@@ -147,8 +147,32 @@ struct GeneralSettingView: View {
     Toggle("Only effect to first Finder's window.", isOn: $state.effectFirstWindow)
   }
 
+  private static let durationFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    formatter.minimumFractionDigits = 2
+    formatter.maximumFractionDigits = 2
+    formatter.minimum = 0.1
+    formatter.maximum = 1.0
+    return formatter
+  }()
+
   @ViewBuilder var disableAnimationView: some View {
     Toggle(String(localized: "Disable window transition animation"), isOn: $state.disableAnimation)
+    if !state.disableAnimation {
+      HStack {
+        Text(String(localized: "Animation duration:"))
+        Slider(value: $state.animationDuration, in: 0.1...1.0, step: 0.05)
+          .frame(width: 120)
+        TextField("", value: $state.animationDuration, formatter: Self.durationFormatter)
+          .font(.subheadline)
+          .frame(width: 45)
+        Text(String(localized: "sec"))
+          .font(.subheadline)
+      }
+      .padding(.leading, 20)
+      .padding(.top, 2)
+    }
   }
 
   var body: some View {

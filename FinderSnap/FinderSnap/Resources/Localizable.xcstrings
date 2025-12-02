@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+      "shouldTranslate" : false
+    },
     "About" : {
       "localizations" : {
         "zh-Hans" : {
@@ -45,6 +48,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當前螢幕"
+          }
+        }
+      }
+    },
+    "Animation duration:" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "动画时长："
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "動畫時長："
           }
         }
       }
@@ -319,6 +338,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "調整視窗為："
+          }
+        }
+      }
+    },
+    "sec" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "秒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "秒"
           }
         }
       }

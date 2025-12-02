@@ -19,7 +19,7 @@ class AppState: ObservableObject {
   }
 
   var resizeWindow = false
-  var windowSize: CGSize = CGSize(width: 1200, height: 800)
+  var windowSize: CGSize = .init(width: 1200, height: 800)
 
   var placeWindow = false
   var place: WindowPlace = .center
@@ -29,6 +29,7 @@ class AppState: ObservableObject {
   var screen: WindowScreen = .main
 
   var disableAnimation = false
+  var animationDuration: Double = 0.25
 
   static let shared = AppState()
 

@@ -98,7 +98,7 @@ final class MenuBarItemController {
         .title(String(localized: "Settings"))
         .keyEquivalent(",")
         .onSelect {
-          self.settingsWindowController.show()
+          self.settingsWindowController.show(.statusBar)
         }
       NSMenuItem.separator()
       MenuItemBuilder()
