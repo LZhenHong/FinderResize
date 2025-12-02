@@ -1,5 +1,5 @@
 {
-  "originHash" : "dbc92a3ed3c145040d05ef7a74924bddf24ac3f08e0d9d9d11eb9371da705e6b",
+  "originHash" : "94fd07f8ab78714bd6dad1ea254a22a0017f7663a582274c30d4eb562ca0a3ef",
   "pins" : [
     {
       "identity" : "settingskit",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/LZhenHong/StorageMacro",
       "state" : {
-        "branch" : "main",
-        "revision" : "fa0646a090a8ac418ccd9d13d3d10cd1dd5efdda"
+        "revision" : "3c8426cb7629009f6df3dc8cc0fb708187f75750",
+        "version" : "0.0.2"
       }
     },
     {
