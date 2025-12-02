@@ -4,23 +4,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-FinderResize (displayed as "FinderSnap") is a macOS menu bar application that automatically resizes and repositions new Finder windows. It uses the Accessibility API to monitor Finder window creation and apply user-configured size/position settings.
+FinderSnap is a macOS menu bar application that automatically resizes and repositions new Finder windows. It uses the Accessibility API to monitor Finder window creation and apply user-configured size/position settings.
 
 ## Build Commands
 
 ```bash
 # Build from command line
-xcodebuild -project FinderResize/FinderResize.xcodeproj -scheme FinderResize -configuration Debug build
+xcodebuild -project FinderSnap/FinderSnap.xcodeproj -scheme FinderSnap -configuration Debug build
 
 # Build for release
-xcodebuild -project FinderResize/FinderResize.xcodeproj -scheme FinderResize -configuration Release build
+xcodebuild -project FinderSnap/FinderSnap.xcodeproj -scheme FinderSnap -configuration Release build
 ```
 
 ## Architecture
 
 ### Directory Structure
 
-Source files are in `FinderResize/FinderResize/FinderResize/`:
+Source files are in `FinderSnap/FinderSnap/FinderSnap/`:
 - **App/** - Entry point (`main.swift`), `AppDelegate.swift`, `AppState.swift`
 - **Core/** - Window monitoring and manipulation logic
 - **Extensions/** - AXUIElement, CGRect, URL, and Bundle extensions

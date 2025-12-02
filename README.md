@@ -1,7 +1,7 @@
 # FinderSnap
 
 <p align="center">
-  <img src="FinderResize/FinderResize/Resources/Assets.xcassets/AppIcon.appiconset/128x128.png" alt="FinderSnap Icon" width="128" height="128">
+  <img src="FinderSnap/FinderSnap/Resources/Assets.xcassets/AppIcon.appiconset/128x128.png" alt="FinderSnap Icon" width="128" height="128">
 </p>
 
 <p align="center">
@@ -34,9 +34,9 @@
 ### Build from Source
 
 ```bash
-git clone https://github.com/LZhenHong/FinderResize.git
-cd FinderResize
-xcodebuild -project FinderResize/FinderResize.xcodeproj -scheme FinderResize -configuration Release build
+git clone https://github.com/LZhenHong/FinderSnap.git
+cd FinderSnap
+xcodebuild -project FinderSnap/FinderSnap.xcodeproj -scheme FinderSnap -configuration Release build
 ```
 
 The built app will be located in the `build/Release` directory.
